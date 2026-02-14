@@ -3,26 +3,62 @@
     {
       "id": "scenario-sms",
       "description": "A smartphone screen showing notifications",
-      "imageUrl": "https://images.unsplash.com/photo-1663408319620-3551f425c81e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzbWFydHBob25lJTIwbm90aWZpY2F0aW9uc3xlbnwwfHx8fDE3NzEwNTQ1OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1584091377126-3817650725fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWFydHBob25lJTIwbm90aWZpY2F0aW9uc3xlbnwwfHx8fDE3NzEwNTQ1OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "smartphone notifications"
-    },
-    {
-      "id": "scenario-banking",
-      "description": "A person using online banking on a laptop",
-      "imageUrl": "https://images.unsplash.com/photo-1607697987724-fc9f8b225223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxvbmxpbmUlMjBiYW5raW5nfGVufDB8fHx8MTc3MTA1NDU5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "online banking"
     },
     {
       "id": "scenario-gov",
       "description": "An official government building",
-      "imageUrl": "https://images.unsplash.com/photo-1667849921481-9e13c239ee3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcwOTY2OTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcwOTY2OTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "government building"
     },
     {
       "id": "scenario-social",
       "description": "A tablet displaying a social media feed",
-      "imageUrl": "https://images.unsplash.com/photo-1603145733146-ae562a55031e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzb2NpYWwlMjBtZWRpYXxlbnwwfHx8fDE3NzA5OTIzODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzb2NpYWwlMjBtZWRpYXxlbnwwfHx8fDE3NzA5OTIzODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "social media"
+    },
+    {
+      "id": "social-post-cruise",
+      "description": "A cruise ship on the ocean",
+      "imageUrl": "https://images.unsplash.com/photo-1580286374075-7279567e29ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcnVpc2UlMjBzaGlwfGVufDB8fHx8MTc3MTA1NjMyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cruise ship"
+    },
+    {
+      "id": "social-profile-cruise",
+      "description": "A logo for a cruise company",
+      "imageUrl": "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NzEwMTg1ODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "social-post-nature",
+      "description": "A vibrant nature landscape",
+      "imageUrl": "https://images.unsplash.com/photo-1611657291636-c141ee8cf7ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxuYXR1cmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzcwOTYyNDYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nature landscape"
+    },
+    {
+      "id": "social-profile-natgeo",
+      "description": "A logo for a nature publication",
+      "imageUrl": "https://images.unsplash.com/photo-1562705121-e624542c7b9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29tcGFueSUyMGxvZ298ZW58MHx8fHwxNzcxMDE4NTg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "social-profile-anna",
+      "description": "An avatar for a person named Anna",
+      "imageUrl": "https://images.unsplash.com/photo-1750535135704-f9a5dba67e46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcwOTk2NTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person avatar"
+    },
+    {
+      "id": "social-post-console",
+      "description": "A video game console",
+      "imageUrl": "https://images.unsplash.com/photo-1588689115724-a624efec3c93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnYW1lJTIwY29uc29sZXxlbnwwfHx8fDE3NzA5ODQ1ODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game console"
+    },
+    {
+      "id": "social-profile-john",
+      "description": "An avatar for a person named John",
+      "imageUrl": "https://images.unsplash.com/photo-1750535135593-3a8e5def331d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcwOTk2NTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person avatar"
     }
   ]
 }

@@ -21,11 +21,11 @@ export default function ScenarioCard({ scenario }: ScenarioCardProps) {
     <Card className="flex flex-col justify-between overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
       <CardHeader className="relative h-40 p-6 flex flex-col justify-end">
         <Image
-          src={scenario.image.url}
+          src={scenario.image.imageUrl}
           alt={scenario.title}
           fill
           className="object-cover -z-10"
-          data-ai-hint={scenario.image.hint}
+          data-ai-hint={scenario.image.imageHint}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/0 -z-10"></div>
         <div className="flex items-center gap-3">

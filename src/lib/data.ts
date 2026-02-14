@@ -1,16 +1,25 @@
 import { MessageCircleWarning, ShieldAlert, Smartphone } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { placeholderImageMap } from "./placeholder-images";
+import type { ImagePlaceholder } from "./placeholder-images";
 
-export const scenarios = [
+export type Scenario = {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  image: ImagePlaceholder;
+  path: string;
+};
+
+
+export const scenarios: Scenario[] = [
   {
     id: "suspicious-sms",
     title: "Suspicious SMS",
     description: "Learn to identify and handle suspicious text messages.",
     icon: Smartphone,
-    image: {
-      id: "scenario-sms",
-      url: "https://picsum.photos/seed/101/600/400",
-      hint: "smartphone notifications",
-    },
+    image: placeholderImageMap["scenario-sms"],
     path: "/scenarios/suspicious-sms",
   },
   {
@@ -18,11 +27,7 @@ export const scenarios = [
     title: "Fake Government Website",
     description: "Identify fake government sites asking for personal info.",
     icon: ShieldAlert,
-    image: {
-      id: "scenario-gov",
-      url: "https://picsum.photos/seed/103/600/400",
-      hint: "government building",
-    },
+    image: placeholderImageMap["scenario-gov"],
     path: "/scenarios/fake-gov-website",
   },
   {
@@ -30,13 +35,7 @@ export const scenarios = [
     title: "Social Media Quiz",
     description: "Understand the risks of sharing information on social media.",
     icon: MessageCircleWarning,
-    image: {
-      id: "scenario-social",
-      url: "https://picsum.photos/seed/104/600/400",
-      hint: "social media",
-    },
+    image: placeholderImageMap["scenario-social"],
     path: "/scenarios/social-media-quiz",
   }
 ];
-
-export type Scenario = (typeof scenarios)[0];
