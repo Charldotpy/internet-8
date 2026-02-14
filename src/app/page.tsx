@@ -14,10 +14,12 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {scenarios.map((scenario) => (
-          <ScenarioCard key={scenario.id} scenario={scenario} />
-        ))}
+      <div className="flex justify-center">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {scenarios.map((scenario) => (
+            <ScenarioCard key={scenario.id} scenario={scenario} />
+          ))}
+        </div>
       </div>
     </div>
   );
