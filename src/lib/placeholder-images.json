@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "scenario-sms",
+      "description": "A smartphone screen showing notifications",
+      "imageUrl": "https://images.unsplash.com/photo-1663408319620-3551f425c81e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzbWFydHBob25lJTIwbm90aWZpY2F0aW9uc3xlbnwwfHx8fDE3NzEwNTQ1OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smartphone notifications"
+    },
+    {
+      "id": "scenario-banking",
+      "description": "A person using online banking on a laptop",
+      "imageUrl": "https://images.unsplash.com/photo-1607697987724-fc9f8b225223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxvbmxpbmUlMjBiYW5raW5nfGVufDB8fHx8MTc3MTA1NDU5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "online banking"
+    },
+    {
+      "id": "scenario-gov",
+      "description": "An official government building",
+      "imageUrl": "https://images.unsplash.com/photo-1667849921481-9e13c239ee3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcwOTY2OTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "government building"
+    },
+    {
+      "id": "scenario-social",
+      "description": "A tablet displaying a social media feed",
+      "imageUrl": "https://images.unsplash.com/photo-1603145733146-ae562a55031e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzb2NpYWwlMjBtZWRpYXxlbnwwfHx8fDE3NzA5OTIzODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "social media"
+    }
+  ]
 }
