@@ -1,12 +1,13 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
 import Header from '@/components/header';
 import AiGuidance from '@/components/ai-guidance';
 
-export type TextSize = 'sm' | 'md' | 'lg';
-const fontSizes: Record<TextSize, number> = { sm: 14, md: 16, lg: 18 };
+export const textSizes = ['sm', 'md', 'lg', 'xl', '2xl'] as const;
+export type TextSize = (typeof textSizes)[number];
+const fontSizes: Record<TextSize, number> = { sm: 14, md: 16, lg: 18, xl: 20, '2xl': 22 };
+
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [textSize, setTextSize] = useState<TextSize>('md');
@@ -15,7 +16,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setIsMounted(true);
     const storedSize = localStorage.getItem('textSize') as TextSize | null;
-    if (storedSize && ['sm', 'md', 'lg'].includes(storedSize)) {
+    if (storedSize && (textSizes as readonly string[]).includes(storedSize)) {
       setTextSize(storedSize);
     }
   }, []);

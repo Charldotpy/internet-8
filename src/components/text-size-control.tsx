@@ -1,6 +1,6 @@
 import { Minus, Plus } from 'lucide-react';
 import { Button } from './ui/button';
-import type { TextSize } from './app-layout';
+import { type TextSize, textSizes } from './app-layout';
 
 type TextSizeControlProps = {
   textSize: TextSize;
@@ -11,14 +11,18 @@ export default function TextSizeControl({
   textSize,
   setTextSize,
 }: TextSizeControlProps) {
+  const currentIndex = textSizes.indexOf(textSize);
+  
   const handleIncrease = () => {
-    if (textSize === 'sm') setTextSize('md');
-    else if (textSize === 'md') setTextSize('lg');
+    if (currentIndex < textSizes.length - 1) {
+      setTextSize(textSizes[currentIndex + 1]);
+    }
   };
 
   const handleDecrease = () => {
-    if (textSize === 'lg') setTextSize('md');
-    else if (textSize === 'md') setTextSize('sm');
+    if (currentIndex > 0) {
+      setTextSize(textSizes[currentIndex - 1]);
+    }
   };
 
   return (
@@ -27,20 +31,20 @@ export default function TextSizeControl({
         variant="ghost"
         size="icon"
         onClick={handleDecrease}
-        disabled={textSize === 'sm'}
+        disabled={currentIndex === 0}
         aria-label="Decrease text size"
         className="h-8 w-8"
       >
         <Minus className="h-4 w-4" />
       </Button>
       <span className="w-8 text-center text-sm font-semibold tabular-nums">
-        A
+        {textSize.toUpperCase()}
       </span>
       <Button
         variant="ghost"
         size="icon"
         onClick={handleIncrease}
-        disabled={textSize === 'lg'}
+        disabled={currentIndex === textSizes.length - 1}
         aria-label="Increase text size"
         className="h-8 w-8"
       >
