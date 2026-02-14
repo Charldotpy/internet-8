@@ -1,4 +1,4 @@
-import { Landmark, MessageCircleWarning, ShieldAlert, Smartphone } from "lucide-react";
+import { MessageCircleWarning, ShieldAlert, Smartphone } from "lucide-react";
 
 export const scenarios = [
   {
@@ -12,18 +12,6 @@ export const scenarios = [
       hint: "smartphone notifications",
     },
     path: "/scenarios/suspicious-sms",
-  },
-  {
-    id: "online-banking",
-    title: "Online Banking",
-    description: "Practice safe online banking and spot fraudulent websites.",
-    icon: Landmark,
-    image: {
-      id: "scenario-banking",
-      url: "https://picsum.photos/seed/102/600/400",
-      hint: "online banking",
-    },
-    path: "/scenarios/online-banking",
   },
   {
     id: "fake-gov-website",
