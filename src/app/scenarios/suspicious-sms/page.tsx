@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Smartphone, ChevronLeft, Flag, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { Smartphone, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,80 +17,114 @@ import {
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-const messages = [
-  { id: 1, sender: 'Friend', text: "Hey, are we still on for lunch tomorrow at 12? The usual spot.", isAnomaly: false },
-  { id: 2, sender: '555-0102', text: "URGENT: Your bank account has been compromised. To secure your funds, click here immediately: bit.ly/secure-my-acct", isAnomaly: true, anomalyDescription: "This is a classic phishing attempt. It creates a sense of urgency and uses a suspicious, shortened link to trick you into giving away your information." },
-  { id: 3, sender: 'Doctor\'s Office', text: "Reminder: Your appointment is on Friday at 3 PM. Please reply YES to confirm.", isAnomaly: false },
+const scenarios = [
+  {
+    id: 1,
+    sender: '555-0102',
+    text: "Your bank account is locked. Click this link immediately and enter your OTP: bit.ly/secure-my-acct",
+    isScam: true,
+    explanation: "It creates a sense of urgency and uses a suspicious, shortened link to trick you into giving away your information.",
+  },
+  {
+    id: 2,
+    sender: "Doctor's Office",
+    text: "Reminder: Your appointment is on Friday at 3 PM. Please reply YES to confirm.",
+    isScam: false,
+    explanation: "The request is simple, expected, and doesn't ask for sensitive information or for you to click a strange link."
+  },
+  {
+    id: 3,
+    sender: 'Prize Dept.',
+    text: "CONGRATS! You've won a $1000 gift card. To claim, provide your address and SSN at: real-prizes-4u.net",
+    isScam: true,
+    explanation: "Unsolicited prize notifications are a huge red flag, especially when they ask for sensitive personal information like your Social Security Number."
+  },
+  {
+    id: 4,
+    sender: "Friend",
+    text: "Hey, are we still on for lunch tomorrow at 12? The usual spot.",
+    isScam: false,
+    explanation: "This is a normal message from a friend. There are no suspicious links or urgent requests for information."
+  }
 ];
 
 const scenarioId = 'suspicious-sms';
 
 export default function SuspiciousSmsPage() {
   const router = useRouter();
-  const [reportedAnomalies, setReportedAnomalies] = useState<number[]>([]);
-  const [showResult, setShowResult] = useState<{correct: boolean, description: string} | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
+  // This state is not used for now but could be used for a dynamic summary page later.
+  const [answers, setAnswers] = useState<any[]>([]);
 
-  const totalAnomalies = messages.filter(m => m.isAnomaly).length;
+  const currentScenario = scenarios[currentStep];
 
-  const handleReport = (messageId: number) => {
-    if (reportedAnomalies.includes(messageId)) return;
+  const handleAnswer = (userThinksIsScam: boolean) => {
+    const isCorrect = userThinksIsScam === currentScenario.isScam;
 
-    const message = messages.find(m => m.id === messageId);
-    if (message) {
-      setReportedAnomalies(prev => [...prev, messageId]);
-      setShowResult({ correct: message.isAnomaly, description: message.isAnomaly ? message.anomalyDescription! : "This message seems safe. It's from a known contact (your doctor's office) and is a simple reminder. Good job being cautious!" });
+    setAnswers(prev => [...prev, { ...currentScenario, userAnsweredScam: userThinksIsScam, isCorrect }]);
+
+    let title: string;
+    let message: string;
+
+    if (isCorrect) {
+        if (currentScenario.isScam) {
+            title = "Correct!";
+            message = "Correct! Never share your OTP or click unknown links. " + currentScenario.explanation;
+        } else {
+            title = "Correct!";
+            message = "You're right, this message is safe. " + currentScenario.explanation;
+        }
+    } else { // Incorrect
+        if (currentScenario.isScam) {
+            title = "Be careful!";
+            message = "Be careful! This is a SCAM. Never share your OTP. " + currentScenario.explanation;
+        } else {
+            title = "Be careful!";
+            message = "This message was actually safe. " + currentScenario.explanation;
+        }
+    }
+
+    setShowResult({ title, message, correct: isCorrect });
+  };
+
+  const handleNext = () => {
+    setShowResult(null);
+    if (currentStep < scenarios.length - 1) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      // In a real app, you'd pass the score/answers to the summary page.
+      router.push(`/scenarios/${scenarioId}/summary`);
     }
   };
-  
-  const finishSimulation = () => {
-    router.push(`/scenarios/${scenarioId}/summary`);
-  };
 
-  const correctlyReportedCount = reportedAnomalies.filter(id => messages.find(m => m.id === id)?.isAnomaly).length;
-  const progress = (correctlyReportedCount / totalAnomalies) * 100;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6">
        <Link href="/" className={cn(buttonVariants({ variant: "outline" }), "inline-flex items-center gap-2")}>
         <ChevronLeft className="h-4 w-4" />
         Back to Scenarios
       </Link>
       <Card className="overflow-hidden">
-        <CardHeader className="bg-muted/50 p-4 border-b">
-          <h1 className="text-xl font-bold flex items-center gap-2"><Smartphone /> Suspicious SMS Simulation</h1>
-          <p className="text-muted-foreground text-sm">Review the messages below. Click the <Flag className="inline h-4 w-4"/> icon on any message you think is a scam.</p>
-          <div className="flex items-center gap-4 pt-2">
-            <span className="text-sm font-medium">Anomalies Found:</span>
-            <Progress value={progress} aria-label={`${progress}% of anomalies found`} className="w-[60%]" />
-            <span className="text-sm font-medium text-muted-foreground">{correctlyReportedCount}/{totalAnomalies}</span>
-          </div>
+        <CardHeader className="p-4 border-b bg-muted/50">
+            <h1 className="text-xl font-bold flex items-center gap-2"><Smartphone /> Step {currentStep + 1} of {scenarios.length}</h1>
+            <p className="text-muted-foreground text-sm">Is this message a scam or is it safe? Analyze the message below and make your choice.</p>
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="bg-slate-200 dark:bg-slate-800 p-4 space-y-4 max-h-[50vh] overflow-y-auto">
-            {messages.map((msg) => (
-              <div key={msg.id} className={cn("flex items-end gap-2", msg.sender === 'Me' ? 'justify-end' : 'justify-start')}>
-                <div className={cn("p-3 rounded-2xl max-w-[80%] relative group shadow-md", msg.sender === 'Me' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none')}>
-                  <p className="font-semibold text-xs text-accent-foreground/80">{msg.sender}</p>
-                  <p className="text-base">{msg.text}</p>
-                   <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
-                    onClick={() => handleReport(msg.id)}
-                    disabled={reportedAnomalies.includes(msg.id)}
-                    aria-label={`Report message from ${msg.sender}`}
-                  >
-                    <Flag className="h-4 w-4 text-destructive" />
-                  </Button>
+        <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
+            <div className="space-y-2">
+                <p className="text-sm font-semibold text-muted-foreground">⚠ You received an SMS from: {currentScenario.sender}</p>
+                <div className="bg-card text-card-foreground p-4 rounded-xl shadow-md">
+                    <p className="text-base sm:text-lg">“{currentScenario.text}”</p>
                 </div>
-              </div>
-            ))}
-          </div>
+            </div>
         </CardContent>
-        <CardFooter className="p-4 border-t bg-muted/50">
-          <Button onClick={finishSimulation} className="ml-auto" disabled={correctlyReportedCount < totalAnomalies}>
-            Finish Simulation <ArrowRight className="ml-2"/>
-          </Button>
+        <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-600 hover:text-white" onClick={() => handleAnswer(false)}>
+                <Check className="mr-2" /> This is Safe
+            </Button>
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-destructive text-destructive hover:bg-destructive hover:text-white" onClick={() => handleAnswer(true)}>
+                <X className="mr-2" /> This is a Scam
+            </Button>
         </CardFooter>
       </Card>
       
@@ -100,14 +133,16 @@ export default function SuspiciousSmsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               {showResult?.correct ? <CheckCircle className="text-green-500" /> : <XCircle className="text-red-500" />}
-              {showResult?.correct ? "Anomaly Spotted!" : "Looks Safe"}
+              {showResult?.title}
             </AlertDialogTitle>
             <AlertDialogDescription className="pt-4 text-base">
-              {showResult?.description}
+              {showResult?.message}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowResult(null)}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleNext}>
+                {currentStep < scenarios.length - 1 ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
