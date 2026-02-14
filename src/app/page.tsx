@@ -6,7 +6,7 @@ export default function Home() {
     <div className="space-y-12">
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-          Welcome to ElderNet Guide
+          Welcome to Internet 8
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Choose a scenario below to practice your internet safety skills in a
