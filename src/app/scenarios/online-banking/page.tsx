@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Landmark, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,32 +60,36 @@ export default function OnlineBankingQuizPage() {
   const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
   const [answers, setAnswers] = useState<any[]>([]);
 
+  const isReviewing = currentStep < answers.length;
+  const currentAnswerForReview = isReviewing ? answers[currentStep] : null;
   const currentScenario = scenarios[currentStep];
 
+  const goToStep = (step: number) => {
+    if (step < answers.length) {
+      setCurrentStep(step);
+    }
+  };
+
   const handleAnswer = (userThinksIsScam: boolean) => {
+    if (isReviewing) return;
+
     const isCorrect = userThinksIsScam === currentScenario.isScam;
 
     setAnswers(prev => [...prev, { ...currentScenario, userAnsweredScam: userThinksIsScam, isCorrect }]);
 
-    if (isCorrect) {
-      setShowResult({
-        title: "Correct!",
-        message: "Great job! " + currentScenario.explanation,
-        correct: true,
-      });
-    } else {
-      setShowResult({
-        title: "Be careful!",
-        message: "This was actually " + (currentScenario.isScam ? "a scam. " : "safe. ") + currentScenario.explanation,
-        correct: false,
-      });
-    }
+    setShowResult({
+      title: isCorrect ? "Correct!" : "Be careful!",
+      message: isCorrect
+        ? "Great job! " + currentScenario.explanation
+        : "This was actually " + (currentScenario.isScam ? "a scam. " : "safe. ") + currentScenario.explanation,
+      correct: isCorrect,
+    });
   };
 
   const handleNext = () => {
     setShowResult(null);
-    if (currentStep < scenarios.length - 1) {
-      setCurrentStep(prev => prev + 1);
+    if (answers.length < scenarios.length) {
+      setCurrentStep(answers.length);
     } else {
       router.push(`/scenarios/${scenarioId}/summary`);
     }
@@ -132,6 +136,49 @@ export default function OnlineBankingQuizPage() {
         <ChevronLeft className="h-4 w-4" />
         Back to Scenarios
       </Link>
+      
+      <div className="flex justify-center gap-2 flex-wrap">
+        {scenarios.map((_, index) => {
+          const answer = answers[index];
+          const isAnswered = index < answers.length;
+          const isCurrent = index === currentStep;
+
+          let cubeClass = 'bg-muted text-muted-foreground border-border';
+          let content;
+
+          if (isAnswered) {
+            if (answer.isCorrect) {
+              cubeClass = 'bg-green-500 hover:bg-green-500/90 text-white border-green-600';
+              content = <Check className="h-4 w-4" />;
+            } else {
+              cubeClass = 'bg-red-500 hover:bg-red-500/90 text-white border-red-600';
+              content = <X className="h-4 w-4" />;
+            }
+          } else {
+            content = <>{index + 1}</>;
+          }
+
+          return (
+            <Button
+              key={index}
+              variant="outline"
+              size="icon"
+              onClick={() => goToStep(index)}
+              disabled={!isAnswered || isCurrent}
+              className={cn(
+                'h-8 w-8 rounded-md transition-all',
+                cubeClass,
+                isCurrent && 'ring-2 ring-primary ring-offset-2',
+                !isAnswered && 'cursor-not-allowed opacity-50'
+              )}
+              aria-label={`Question ${index + 1}`}
+            >
+              {content}
+            </Button>
+          );
+        })}
+      </div>
+
       <Card className="overflow-hidden">
         <CardHeader className="p-4 border-b bg-muted/50">
             <h1 className="text-xl font-bold flex items-center gap-2"><Landmark /> Step {currentStep + 1} of {scenarios.length}</h1>
@@ -141,12 +188,29 @@ export default function OnlineBankingQuizPage() {
             {renderScenarioContent()}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-600 hover:text-white" onClick={() => handleAnswer(false)}>
-                <Check className="mr-2" /> This is Safe
-            </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-destructive text-destructive hover:bg-destructive hover:text-white" onClick={() => handleAnswer(true)}>
-                <X className="mr-2" /> This is a Scam
-            </Button>
+          {isReviewing && currentAnswerForReview ? (
+            <div className="text-center w-full flex flex-col items-center gap-2">
+              <p className="text-muted-foreground">You answered: <span className="font-bold">{currentAnswerForReview.userAnsweredScam ? 'This is a Scam' : 'This is Safe'}</span></p>
+              {currentAnswerForReview.isCorrect ? (
+                <div className="flex items-center gap-2 text-green-600 font-bold"><CheckCircle /> Correct!</div>
+              ) : (
+                <div className="flex items-center gap-2 text-red-600 font-bold"><XCircle /> Incorrect.</div>
+              )}
+              <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
+              <Button onClick={handleNext} className="mt-4">
+                {answers.length < scenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-600 hover:text-white" onClick={() => handleAnswer(false)}>
+                  <Check className="mr-2" /> This is Safe
+              </Button>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto border-destructive text-destructive hover:bg-destructive hover:text-white" onClick={() => handleAnswer(true)}>
+                  <X className="mr-2" /> This is a Scam
+              </Button>
+            </>
+          )}
         </CardFooter>
       </Card>
       
@@ -163,7 +227,7 @@ export default function OnlineBankingQuizPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {currentStep < scenarios.length - 1 ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < scenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
