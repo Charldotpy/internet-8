@@ -1,4 +1,4 @@
-import { MessageCircleWarning, ShieldAlert, Smartphone } from "lucide-react";
+import { MessageCircleWarning, ShieldAlert, Smartphone, Landmark } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { placeholderImageMap } from "./placeholder-images";
 import type { ImagePlaceholder } from "./placeholder-images";
@@ -21,6 +21,14 @@ export const scenarios: Scenario[] = [
     icon: Smartphone,
     image: placeholderImageMap["scenario-sms"],
     path: "/scenarios/suspicious-sms",
+  },
+  {
+    id: "online-banking",
+    title: "Online Banking",
+    description: "Practice safe online banking and spot fraudulent activity.",
+    icon: Landmark,
+    image: placeholderImageMap["scenario-banking"],
+    path: "/scenarios/online-banking",
   },
   {
     id: "fake-gov-website",

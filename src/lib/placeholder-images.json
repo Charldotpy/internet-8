@@ -7,6 +7,12 @@
       "imageHint": "smartphone notifications"
     },
     {
+      "id": "scenario-banking",
+      "description": "A person using a laptop for online banking",
+      "imageUrl": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvbmxpbmUlMjBiYW5raW5nfGVufDB8fHx8MTc3MTA1NjgwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "online banking"
+    },
+    {
       "id": "scenario-gov",
       "description": "An official government building",
       "imageUrl": "https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcwOTY2OTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
