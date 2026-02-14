@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import type { Scenario } from '@/lib/data';
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -19,26 +20,27 @@ export default function ScenarioCard({ scenario }: ScenarioCardProps) {
   const Icon = scenario.icon;
   return (
     <Card className="flex flex-col justify-between overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
-      <CardHeader className="relative h-40 p-6 flex flex-col justify-end">
+      <div className="relative h-40">
         <Image
           src={scenario.image.imageUrl}
           alt={scenario.title}
           fill
-          className="object-cover -z-10"
+          className="object-cover"
           data-ai-hint={scenario.image.imageHint}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/0 -z-10"></div>
+      </div>
+      <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/80 backdrop-blur-sm border border-primary-foreground/20">
-            <Icon className="h-6 w-6 text-primary-foreground" />
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Icon className="h-6 w-6" />
           </div>
-          <CardTitle className="text-primary-foreground">{scenario.title}</CardTitle>
+          <CardTitle>{scenario.title}</CardTitle>
         </div>
       </CardHeader>
-      <div className="p-6 pt-4 flex-grow">
+      <CardContent className="flex-grow">
         <CardDescription>{scenario.description}</CardDescription>
-      </div>
-      <CardFooter className="p-6 pt-0">
+      </CardContent>
+      <CardFooter>
         <Button asChild className="w-full">
           <Link href={scenario.path}>
             Start Simulation <ArrowRight />
