@@ -5,13 +5,18 @@ import { Check, ArrowRight, Lightbulb, UserCheck } from "lucide-react";
 import Link from 'next/link';
 
 const mockPerformanceData = {
-  scenarioName: "Online Banking Security",
+  scenarioName: "Online Banking Quiz",
   actionsTaken: [
-    "Correctly identified a phishing alert on the account dashboard."
+    "Correctly identified a phishing email.",
+    "Correctly identified a legitimate bank notification."
   ],
   identifiedRisks: [
     {
-      description: "An urgent, high-pressure pop-up asking to 'verify' identity.",
+      description: "Phishing email with a suspicious link and urgent tone.",
+      correctlyIdentified: true,
+    },
+     {
+      description: "A 'too good to be true' loan offer.",
       correctlyIdentified: true,
     }
   ],
