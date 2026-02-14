@@ -4,7 +4,7 @@ import AppLayout from '@/components/app-layout';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'ElderNet Guide',
+  title: 'Internet 8',
   description: 'Practice internet safety in a secure, simulated environment.',
 };
 

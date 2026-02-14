@@ -17,7 +17,7 @@ export default function Header({ textSize, setTextSize }: HeaderProps) {
         <Link href="/" className="flex items-center gap-3">
           <ShieldCheck className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold tracking-tight">
-            ElderNet Guide
+            Internet 8
           </span>
         </Link>
         <div className="flex items-center gap-2">
