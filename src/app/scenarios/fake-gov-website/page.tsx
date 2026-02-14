@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldAlert, ChevronLeft, Check, AlertTriangle, ArrowRight, CheckCircle, XCircle, Lock } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -64,6 +64,42 @@ const scenarios: Scenario[] = [
     isSuspicious: false,
     explanation: "This is safe. 'jpj.gov.my' is the official domain for the Road Transport Department Malaysia. This is a legitimate government service.",
   },
+  {
+    id: 5,
+    url: 'https://myspr.gov.my/semak-dpr',
+    title: 'Check Your Voter Registration',
+    body: 'Semak status pendaftaran anda sebagai pengundi. Welcome to the official portal for the Election Commission of Malaysia.',
+    inputs: [{ label: 'IC Number', placeholder: 'e.g., 900101-10-1234' }],
+    isSuspicious: false,
+    explanation: "This is safe. 'myspr.gov.my' is an official portal of the Malaysian Election Commission (SPR).",
+  },
+  {
+    id: 6,
+    url: 'https://citizen-subsidy.org/apply',
+    title: 'Fuel Subsidy Application 2026',
+    body: 'The government has announced a new fuel subsidy for all citizens. Apply now to receive your monthly fuel card.',
+    inputs: [{ label: 'Full Name', placeholder: 'Your Name' }, { label: 'IC Number', placeholder: 'e.g., 900101-10-1234' }, { label: 'Vehicle Plate', placeholder: 'e.g., WXA 1234' }],
+    isSuspicious: true,
+    explanation: "This is suspicious. The domain '.org' is not typically used for Malaysian government services, which end in '.gov.my'. Be wary of unofficial-looking subsidy sites.",
+  },
+  {
+    id: 7,
+    url: 'https://www.mof.gov.my',
+    title: 'Ministry of Finance Malaysia',
+    body: 'Welcome to the official website of the Malaysian Ministry of Finance. Find the latest budget information, press releases, and publications.',
+    inputs: [],
+    isSuspicious: false,
+    explanation: "This is safe. 'mof.gov.my' is the official website for the Ministry of Finance. It provides information and does not ask for unnecessary personal details.",
+  },
+  {
+    id: 8,
+    url: 'http://my-census-update.net/form',
+    title: 'Mandatory Census Update',
+    body: 'URGENT: All citizens are required to update their census data due to new regulations. Failure to comply may result in a fine. Click here to update now.',
+    inputs: [{ label: 'Full Address', placeholder: 'Your Address' }, { label: 'Household Income', placeholder: 'e.g., 5000' }],
+    isSuspicious: true,
+    explanation: "This is highly suspicious. The URL is not secure (http instead of https), it's not a '.gov.my' domain, and it uses threats (a fine) to create urgency. Official census data is collected through secure, official channels.",
+  }
 ];
 
 const scenarioId = 'fake-gov-website';
@@ -100,10 +136,19 @@ export default function FakeGovWebsitePage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
+
+  useEffect(() => {
+    setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
+  }, []);
+
+  if (shuffledScenarios.length === 0) {
+    return null; // Or a loading spinner
+  }
 
   const isReviewing = currentStep < answers.length;
   const currentAnswerForReview = isReviewing ? answers[currentStep] : null;
-  const currentScenario = scenarios[currentStep];
+  const currentScenario = shuffledScenarios[currentStep];
 
   const goToStep = (step: number) => {
     if (step < answers.length) {
@@ -125,9 +170,10 @@ export default function FakeGovWebsitePage() {
 
   const handleNext = () => {
     setShowResult(null);
-    if (answers.length < scenarios.length) {
+    if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
+      // Pass answers to summary page via query params or state management
       router.push(`/scenarios/${scenarioId}/summary`);
     }
   };
@@ -157,7 +203,7 @@ export default function FakeGovWebsitePage() {
       </Link>
       
       <div className="flex justify-center gap-2 flex-wrap">
-        {scenarios.map((_, index) => {
+        {shuffledScenarios.map((scenario, index) => {
           const answer = answers[index];
           const isAnswered = index < answers.length;
           const isCurrent = index === currentStep;
@@ -179,7 +225,7 @@ export default function FakeGovWebsitePage() {
 
           return (
             <Button
-              key={index}
+              key={scenario.id}
               variant="outline"
               size="icon"
               onClick={() => goToStep(index)}
@@ -202,12 +248,12 @@ export default function FakeGovWebsitePage() {
         <CardHeader className="p-4 border-b bg-muted/50">
             <h1 className="text-xl font-bold flex items-center gap-2">
                 <ShieldAlert />
-                Step {currentStep + 1} of {scenarios.length}: Website Analysis
+                Step {currentStep + 1} of {shuffledScenarios.length}: Website Analysis
             </h1>
             <p className="text-muted-foreground text-sm">Is the website shown below safe or suspicious? Analyze the URL and content, then make your choice.</p>
         </CardHeader>
         <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
-            {renderScenarioContent()}
+            {currentScenario && renderScenarioContent()}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           {isReviewing && currentAnswerForReview ? (
@@ -220,7 +266,7 @@ export default function FakeGovWebsitePage() {
                )}
                <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
                <Button onClick={handleNext} className="mt-4">
-                 {answers.length < scenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+                 {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
                </Button>
              </div>
            ) : (
@@ -249,7 +295,7 @@ export default function FakeGovWebsitePage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < scenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

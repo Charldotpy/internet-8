@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Smartphone, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -45,20 +45,59 @@ const scenarios = [
     text: "Hey, are we still on for lunch tomorrow at 12? The usual spot.",
     isScam: false,
     explanation: "This is a normal message from a friend. There are no suspicious links or urgent requests for information."
+  },
+  {
+    id: 5,
+    sender: 'Delivery Service',
+    text: "We missed your delivery. A $1.99 redelivery fee is required. Please update your details here: my-package-tracking.info",
+    isScam: true,
+    explanation: "Scammers often use small 'fees' to get your credit card details. Legitimate delivery companies usually don't charge redelivery fees this way and the URL is not official.",
+  },
+  {
+    id: 6,
+    sender: 'Your Favorite Store',
+    text: "Our 24-hour flash sale is ON! Get 50% off everything. Sale ends tonight at midnight. Shop now!",
+    isScam: false,
+    explanation: "This is a typical marketing message. While it creates urgency, it's from a known sender and doesn't ask for personal information via text.",
+  },
+  {
+    id: 7,
+    sender: 'Unknown Number',
+    text: "Someone tagged you in a new photo album. See the pics here: view-my-album.xyz/123",
+    isScam: true,
+    explanation: "Be cautious of messages from unknown numbers, especially with generic text and strange links. This is a common way to spread malware or phishing links.",
+  },
+  {
+    id: 8,
+    sender: 'Account Services',
+    text: "Your verification code is 843512. Do not share this with anyone. It expires in 10 minutes.",
+    isScam: false,
+    explanation: "This is a standard two-factor authentication (2FA) message. As long as YOU initiated the login or action that prompted it, it's safe.",
   }
 ];
 
 const scenarioId = 'suspicious-sms';
+
+type Scenario = typeof scenarios[0];
 
 export default function SuspiciousSmsPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
+
+  useEffect(() => {
+    setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
+  }, []);
+
+  if (shuffledScenarios.length === 0) {
+    return null; // Or a loading spinner
+  }
   
   const isReviewing = currentStep < answers.length;
   const currentAnswerForReview = isReviewing ? answers[currentStep] : null;
-  const currentScenario = scenarios[currentStep];
+  const currentScenario = shuffledScenarios[currentStep];
 
   const goToStep = (step: number) => {
     if (step < answers.length) {
@@ -77,21 +116,11 @@ export default function SuspiciousSmsPage() {
     let message: string;
 
     if (isCorrect) {
-        if (currentScenario.isScam) {
-            title = "Correct!";
-            message = "Correct! Never share your OTP or click unknown links. " + currentScenario.explanation;
-        } else {
-            title = "Correct!";
-            message = "You're right, this message is safe. " + currentScenario.explanation;
-        }
-    } else { // Incorrect
-        if (currentScenario.isScam) {
-            title = "Be careful!";
-            message = "Be careful! This is a SCAM. Never share your OTP. " + currentScenario.explanation;
-        } else {
-            title = "Be careful!";
-            message = "This message was actually safe. " + currentScenario.explanation;
-        }
+        title = "Correct!";
+        message = "Great job! " + currentScenario.explanation;
+    } else { 
+        title = "Be careful!";
+        message = "This was actually " + (currentScenario.isScam ? "a scam. " : "safe. ") + currentScenario.explanation;
     }
 
     setShowResult({ title, message, correct: isCorrect });
@@ -99,7 +128,7 @@ export default function SuspiciousSmsPage() {
 
   const handleNext = () => {
     setShowResult(null);
-    if (answers.length < scenarios.length) {
+    if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
       router.push(`/scenarios/${scenarioId}/summary`);
@@ -114,7 +143,7 @@ export default function SuspiciousSmsPage() {
       </Link>
       
       <div className="flex justify-center gap-2 flex-wrap">
-        {scenarios.map((_, index) => {
+        {shuffledScenarios.map((scenario, index) => {
           const answer = answers[index];
           const isAnswered = index < answers.length;
           const isCurrent = index === currentStep;
@@ -136,7 +165,7 @@ export default function SuspiciousSmsPage() {
 
           return (
             <Button
-              key={index}
+              key={scenario.id}
               variant="outline"
               size="icon"
               onClick={() => goToStep(index)}
@@ -157,16 +186,16 @@ export default function SuspiciousSmsPage() {
 
       <Card className="overflow-hidden">
         <CardHeader className="p-4 border-b bg-muted/50">
-            <h1 className="text-xl font-bold flex items-center gap-2"><Smartphone /> Step {currentStep + 1} of {scenarios.length}</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><Smartphone /> Step {currentStep + 1} of {shuffledScenarios.length}</h1>
             <p className="text-muted-foreground text-sm">Is this message a scam or is it safe? Analyze the message below and make your choice.</p>
         </CardHeader>
         <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
-            <div className="space-y-2">
+            {currentScenario && <div className="space-y-2">
                 <p className="text-sm font-semibold text-muted-foreground">⚠ You received an SMS from: {currentScenario.sender}</p>
                 <div className="bg-card text-card-foreground p-4 rounded-xl shadow-md">
                     <p className="text-base sm:text-lg">“{currentScenario.text}”</p>
                 </div>
-            </div>
+            </div>}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           {isReviewing && currentAnswerForReview ? (
@@ -179,7 +208,7 @@ export default function SuspiciousSmsPage() {
               )}
               <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
               <Button onClick={handleNext} className="mt-4">
-                {answers.length < scenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
               </Button>
             </div>
           ) : (
@@ -208,7 +237,7 @@ export default function SuspiciousSmsPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < scenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

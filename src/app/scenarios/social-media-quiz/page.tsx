@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Heart, MessageCircle, Send, Bookmark, Users } from 'lucide-react';
@@ -62,9 +62,51 @@ const scenarios = [
     isScam: true,
     explanation: "This has multiple red flags for a marketplace scam: a price that's too low, a sob story to create urgency, refusal of a safe transaction method (pickup), and a request for an untraceable payment method (gift card)."
   },
+  {
+    id: 5,
+    platform: 'Facebook',
+    profileName: 'Local Community Group',
+    profileImage: placeholderImageMap['social-profile-community'].imageUrl,
+    image: placeholderImageMap['social-post-lost-pet'].imageUrl,
+    text: "Found this sweet dog wandering near the park. No collar. Does anyone recognize her? Please share so we can find her owner!",
+    isScam: false,
+    explanation: "This is a typical post in a community group. It's a genuine attempt to help and doesn't involve any red flags like asking for money or clicking strange links.",
+  },
+  {
+    id: 6,
+    platform: 'Instagram',
+    profileName: 'Crypto_King_88',
+    profileImage: placeholderImageMap['social-profile-crypto'].imageUrl,
+    image: placeholderImageMap['social-post-chart'].imageUrl,
+    text: "I turned $100 into $10,000 in one week with my secret crypto strategy. DM me 'INFO' and I'll teach you how. Guaranteed profits!",
+    isScam: true,
+    explanation: "This is an investment scam. Promises of 'guaranteed profits' and 'secret strategies' are major red flags. These scams aim to get you to send them money, which you'll never see again.",
+  },
+  {
+    id: 7,
+    platform: 'Facebook',
+    profileName: 'Your Aunt Carol',
+    profileImage: placeholderImageMap['social-profile-aunt'].imageUrl,
+    image: null,
+    text: "Hey sweetie, I'm in a bit of a jam and need to borrow $50 for groceries. Can you send it to me on this new payment app I'm trying? I'll pay you back on Friday!",
+    isScam: true,
+    explanation: "Be careful! This could be a scammer who has hacked your aunt's account. The unusual request for money, especially using a 'new payment app', is suspicious. Always verify such requests by calling your relative directly.",
+  },
+  {
+    id: 8,
+    platform: 'Instagram',
+    profileName: 'BakeWithLove',
+    profileImage: placeholderImageMap['social-profile-baker'].imageUrl,
+    image: placeholderImageMap['social-post-cake'].imageUrl,
+    text: "Just finished this custom birthday cake! So happy with how the chocolate drip turned out. What are you all baking this weekend? 🎂 #baking #cakedecorating",
+    isScam: false,
+    explanation: "This is a normal, safe post from a hobbyist or small business account. It's sharing content and engaging with its audience, which is what social media is for.",
+  }
 ];
 
 const scenarioId = 'social-media-quiz';
+
+type Scenario = typeof scenarios[0];
 
 const InstagramIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>;
 
@@ -73,10 +115,19 @@ export default function SocialMediaQuizPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
+
+  useEffect(() => {
+    setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
+  }, []);
+
+  if (shuffledScenarios.length === 0) {
+    return null; // Or a loading spinner
+  }
 
   const isReviewing = currentStep < answers.length;
   const currentAnswerForReview = isReviewing ? answers[currentStep] : null;
-  const currentScenario = scenarios[currentStep];
+  const currentScenario = shuffledScenarios[currentStep];
 
   const goToStep = (step: number) => {
     if (step < answers.length) {
@@ -98,7 +149,7 @@ export default function SocialMediaQuizPage() {
 
   const handleNext = () => {
     setShowResult(null);
-    if (answers.length < scenarios.length) {
+    if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
       router.push(`/scenarios/${scenarioId}/summary`);
@@ -161,7 +212,7 @@ export default function SocialMediaQuizPage() {
       </Link>
       
       <div className="flex justify-center gap-2 flex-wrap">
-        {scenarios.map((_, index) => {
+        {shuffledScenarios.map((scenario, index) => {
           const answer = answers[index];
           const isAnswered = index < answers.length;
           const isCurrent = index === currentStep;
@@ -183,7 +234,7 @@ export default function SocialMediaQuizPage() {
 
           return (
             <Button
-              key={index}
+              key={scenario.id}
               variant="outline"
               size="icon"
               onClick={() => goToStep(index)}
@@ -206,12 +257,12 @@ export default function SocialMediaQuizPage() {
         <CardHeader className="p-4 border-b bg-muted/50">
             <h1 className="text-xl font-bold flex items-center gap-2">
                 {renderPlatformIcon(currentScenario.platform)}
-                Step {currentStep + 1} of {scenarios.length}: {currentScenario.platform}
+                Step {currentStep + 1} of {shuffledScenarios.length}: {currentScenario.platform}
             </h1>
             <p className="text-muted-foreground text-sm">Is this situation a scam or is it safe? Analyze the post below and make your choice.</p>
         </CardHeader>
         <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
-            {renderScenarioContent()}
+            {currentScenario && renderScenarioContent()}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           {isReviewing && currentAnswerForReview ? (
@@ -224,7 +275,7 @@ export default function SocialMediaQuizPage() {
               )}
               <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
               <Button onClick={handleNext} className="mt-4">
-                {answers.length < scenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
               </Button>
             </div>
           ) : (
@@ -253,7 +304,7 @@ export default function SocialMediaQuizPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < scenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

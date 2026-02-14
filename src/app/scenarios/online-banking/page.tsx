@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Landmark, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -49,20 +49,62 @@ const scenarios = [
     text: "The web address in your browser for your bank's login page is: https://www.net-bank.com. Is this safe to log into?",
     isScam: false,
     explanation: "This is a safe URL. It uses HTTPS for a secure connection and has a legitimate-looking domain name. It's always good practice to check the URL before entering login details."
+  },
+  {
+    id: 5,
+    type: 'sms',
+    sender: 'Bank Alert',
+    text: "We've noticed a login from an unrecognized device. If this was not you, please secure your account here: net-bank.auth-access.com",
+    isScam: true,
+    explanation: "This is a scam. The URL is not the official bank URL. Scammers often mimic security alerts to panic users into clicking malicious links.",
+  },
+  {
+    id: 6,
+    type: 'notification',
+    text: "A payment of $55.00 to 'Online Shopping Mart' was successful.",
+    isScam: false,
+    explanation: "This is a standard transaction notification. If you recognize the transaction, it's safe. If not, you should contact your bank through official channels.",
+  },
+  {
+    id: 7,
+    type: 'email',
+    sender: 'support@net-bank.com',
+    subject: 'Confirm Your New Payee',
+    text: "You have added 'John Doe' as a new payee. To confirm this action, please click the link below. If you did not authorize this, contact us immediately.",
+    isScam: false,
+    explanation: "This is a legitimate security feature. Banks often require confirmation for new payees. As long as you initiated this, it's safe to proceed.",
+  },
+  {
+    id: 8,
+    type: 'offer',
+    text: "Your credit score has changed! See your new score and apply for a credit limit increase with one click! Go to: free-credit-report.info",
+    isScam: true,
+    explanation: "While some banks offer credit score services, this message is suspicious due to the unofficial URL and the push to 'apply with one click', which is a pressure tactic.",
   }
 ];
 
 const scenarioId = 'online-banking';
+
+type Scenario = typeof scenarios[0];
 
 export default function OnlineBankingQuizPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [showResult, setShowResult] = useState<{ title: string; message: string; correct: boolean } | null>(null);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
+
+  useEffect(() => {
+    setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
+  }, []);
+
+  if (shuffledScenarios.length === 0) {
+    return null; // Or a loading spinner
+  }
 
   const isReviewing = currentStep < answers.length;
   const currentAnswerForReview = isReviewing ? answers[currentStep] : null;
-  const currentScenario = scenarios[currentStep];
+  const currentScenario = shuffledScenarios[currentStep];
 
   const goToStep = (step: number) => {
     if (step < answers.length) {
@@ -88,7 +130,7 @@ export default function OnlineBankingQuizPage() {
 
   const handleNext = () => {
     setShowResult(null);
-    if (answers.length < scenarios.length) {
+    if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
       router.push(`/scenarios/${scenarioId}/summary`);
@@ -138,7 +180,7 @@ export default function OnlineBankingQuizPage() {
       </Link>
       
       <div className="flex justify-center gap-2 flex-wrap">
-        {scenarios.map((_, index) => {
+        {shuffledScenarios.map((scenario, index) => {
           const answer = answers[index];
           const isAnswered = index < answers.length;
           const isCurrent = index === currentStep;
@@ -160,7 +202,7 @@ export default function OnlineBankingQuizPage() {
 
           return (
             <Button
-              key={index}
+              key={scenario.id}
               variant="outline"
               size="icon"
               onClick={() => goToStep(index)}
@@ -181,11 +223,11 @@ export default function OnlineBankingQuizPage() {
 
       <Card className="overflow-hidden">
         <CardHeader className="p-4 border-b bg-muted/50">
-            <h1 className="text-xl font-bold flex items-center gap-2"><Landmark /> Step {currentStep + 1} of {scenarios.length}</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><Landmark /> Step {currentStep + 1} of {shuffledScenarios.length}</h1>
             <p className="text-muted-foreground text-sm">Is this situation a scam or is it safe? Analyze the message below and make your choice.</p>
         </CardHeader>
         <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
-            {renderScenarioContent()}
+            {currentScenario && renderScenarioContent()}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           {isReviewing && currentAnswerForReview ? (
@@ -198,7 +240,7 @@ export default function OnlineBankingQuizPage() {
               )}
               <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
               <Button onClick={handleNext} className="mt-4">
-                {answers.length < scenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
               </Button>
             </div>
           ) : (
@@ -227,7 +269,7 @@ export default function OnlineBankingQuizPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < scenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

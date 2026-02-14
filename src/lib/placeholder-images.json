@@ -65,6 +65,48 @@
       "description": "An avatar for a person named John",
       "imageUrl": "https://images.unsplash.com/photo-1750535135593-3a8e5def331d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcwOTk2NTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person avatar"
+    },
+    {
+      "id": "social-profile-community",
+      "description": "A logo for a community group",
+      "imageUrl": "https://images.unsplash.com/photo-1516975069151-6900d0759329?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21tdW5pdHl8ZW58MHx8fHwxNzcxMDYxMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community logo"
+    },
+    {
+      "id": "social-post-lost-pet",
+      "description": "A photo of a lost dog",
+      "imageUrl": "https://images.unsplash.com/photo-1593134257782-e895c7c79618?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb3N0JTIwZG9nfGVufDB8fHx8MTc3MTA2MTI2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lost dog"
+    },
+    {
+      "id": "social-profile-crypto",
+      "description": "An avatar for a crypto enthusiast",
+      "imageUrl": "https://images.unsplash.com/photo-1641823733971-9f87c9385b2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjeWJlcnB1bmslMjBhdmF0YXJ8ZW58MHx8fHwxNzcxMDYxMzE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "crypto avatar"
+    },
+    {
+      "id": "social-post-chart",
+      "description": "A rising stock market chart",
+      "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdG9jayUyMGNoYXJ0fGVufDB8fHx8MTc3MTA2MTM1N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stock chart"
+    },
+    {
+      "id": "social-profile-aunt",
+      "description": "An avatar for an aunt",
+      "imageUrl": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdmF0YXJ8ZW58MHx8fHwxNzcxMDYxNDM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "aunt avatar"
+    },
+    {
+      "id": "social-profile-baker",
+      "description": "A logo for a baking account",
+      "imageUrl": "https://images.unsplash.com/photo-1629824243997-294c7b80a747?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYWtlcnklMjBsb2dvfGVufDB8fHx8MTc3MTA2MTQ4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baker logo"
+    },
+    {
+      "id": "social-post-cake",
+      "description": "A picture of a decorated cake",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYWtlfGVufDB8fHx8MTc3MTA2MTUxNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "decorated cake"
     }
   ]
 }
