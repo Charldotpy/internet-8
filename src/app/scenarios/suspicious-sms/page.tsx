@@ -86,7 +86,6 @@ const FakePhoneFrame = ({ sender, children }: { sender: string, children: React.
              <ChevronLeft className="h-6 w-6 text-primary" />
             <div className="text-center flex-1">
                 <p className="font-bold">{sender}</p>
-                <p className="text-xs text-muted-foreground">carrier</p>
             </div>
              <div className="w-6"></div>
         </div>
