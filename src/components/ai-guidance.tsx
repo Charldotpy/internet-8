@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useState, useEffect, useRef, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Bot, Loader2, Send, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,7 +34,7 @@ function SubmitButton() {
 export default function AiGuidance() {
   const [isOpen, setIsOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, formAction] = useFormState(getAiGuidance, initialState);
+  const [state, formAction] = useActionState(getAiGuidance, initialState);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
