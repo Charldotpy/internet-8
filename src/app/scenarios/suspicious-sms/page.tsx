@@ -80,6 +80,31 @@ const scenarioId = 'suspicious-sms';
 
 type Scenario = typeof scenarios[0];
 
+const FakePhoneFrame = ({ sender, children }: { sender: string, children: React.ReactNode }) => (
+    <div className="bg-white dark:bg-black w-full max-w-sm mx-auto rounded-3xl border-[10px] border-gray-700 dark:border-gray-400 shadow-2xl overflow-hidden">
+        <div className="bg-gray-100 dark:bg-gray-800 px-4 py-3 flex items-center gap-2 border-b dark:border-gray-700">
+             <ChevronLeft className="h-6 w-6 text-primary" />
+            <div className="text-center flex-1">
+                <p className="font-bold">{sender}</p>
+                <p className="text-xs text-muted-foreground">carrier</p>
+            </div>
+             <div className="w-6"></div>
+        </div>
+        <div className="p-4 h-64 overflow-y-auto bg-gray-50 dark:bg-gray-900/50">
+            {children}
+        </div>
+    </div>
+);
+
+const MessageBubble = ({ text }: { text: string }) => (
+    <div className="flex justify-start">
+        <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-2xl max-w-[85%] my-1 rounded-bl-lg">
+            <p className="text-sm">{text}</p>
+        </div>
+    </div>
+);
+
+
 export default function SuspiciousSmsPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
@@ -133,6 +158,14 @@ export default function SuspiciousSmsPage() {
     } else {
       router.push(`/scenarios/${scenarioId}/summary`);
     }
+  };
+
+  const renderScenarioContent = () => {
+    return (
+        <FakePhoneFrame sender={currentScenario.sender}>
+            <MessageBubble text={currentScenario.text} />
+        </FakePhoneFrame>
+    );
   };
 
   return (
@@ -189,13 +222,8 @@ export default function SuspiciousSmsPage() {
             <h1 className="text-xl font-bold flex items-center gap-2"><Smartphone /> Step {currentStep + 1} of {shuffledScenarios.length}</h1>
             <p className="text-muted-foreground text-sm">Is this message a scam or is it safe? Analyze the message below and make your choice.</p>
         </CardHeader>
-        <CardContent className="p-6 bg-slate-200 dark:bg-slate-800">
-            {currentScenario && <div className="space-y-2">
-                <p className="text-sm font-semibold text-muted-foreground">⚠ You received an SMS from: {currentScenario.sender}</p>
-                <div className="bg-card text-card-foreground p-4 rounded-xl shadow-md">
-                    <p className="text-base sm:text-lg">“{currentScenario.text}”</p>
-                </div>
-            </div>}
+        <CardContent className="p-6">
+            {currentScenario && renderScenarioContent()}
         </CardContent>
         <CardFooter className="p-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           {isReviewing && currentAnswerForReview ? (
