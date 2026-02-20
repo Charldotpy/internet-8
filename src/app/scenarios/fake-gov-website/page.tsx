@@ -265,7 +265,7 @@ export default function FakeGovWebsitePage() {
                )}
                <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
                <Button onClick={handleNext} className="mt-4">
-                 {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'View Summary'} <ArrowRight className="ml-2" />
+                 {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'Continue'} <ArrowRight className="ml-2" />
                </Button>
              </div>
            ) : (
@@ -294,7 +294,7 @@ export default function FakeGovWebsitePage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < shuffledScenarios.length ? 'Next' : 'Finish'} <ArrowRight className="ml-2" />
+                {answers.length < shuffledScenarios.length ? 'Next' : 'Continue'} <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
