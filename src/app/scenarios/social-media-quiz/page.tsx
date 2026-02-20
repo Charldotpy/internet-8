@@ -152,6 +152,24 @@ export default function SocialMediaQuizPage() {
     if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
+      const correctAnswers = answers.filter(a => a.isCorrect).length;
+      const score = Math.round((correctAnswers / shuffledScenarios.length) * 100);
+
+      const summaryInput = {
+          scenarioName: "Social Media Quiz",
+          actionsTaken: answers.map(a => {
+              const action = a.userAnsweredScam ? 'marked as scam' : 'marked as safe';
+              const outcome = a.isCorrect ? 'correctly' : 'incorrectly';
+              return `User ${outcome} ${action} a social media post: "${a.text.substring(0, 40)}..."`;
+          }),
+          identifiedRisks: answers.filter(a => a.isScam).map(a => ({
+              description: `A scam post on ${a.platform} from "${a.profileName}" stating: "${a.text.substring(0, 50)}..."`,
+              correctlyIdentified: a.userAnsweredScam,
+          })),
+          score: score,
+      };
+      
+      sessionStorage.setItem(`${scenarioId}-summaryInput`, JSON.stringify(summaryInput));
       router.push(`/scenarios/${scenarioId}/summary`);
     }
   };

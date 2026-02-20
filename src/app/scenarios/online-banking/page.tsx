@@ -133,6 +133,24 @@ export default function OnlineBankingQuizPage() {
     if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
+      const correctAnswers = answers.filter(a => a.isCorrect).length;
+      const score = Math.round((correctAnswers / shuffledScenarios.length) * 100);
+
+      const summaryInput = {
+          scenarioName: "Online Banking Quiz",
+          actionsTaken: answers.map(a => {
+              const action = a.userAnsweredScam ? 'marked as scam' : 'marked as safe';
+              const outcome = a.isCorrect ? 'correctly' : 'incorrectly';
+              return `User ${outcome} ${action} the item: "${a.text.substring(0, 40)}..."`;
+          }),
+          identifiedRisks: answers.filter(a => a.isScam).map(a => ({
+              description: `A scam item stating: "${a.text.substring(0, 50)}..."`,
+              correctlyIdentified: a.userAnsweredScam,
+          })),
+          score: score,
+      };
+      
+      sessionStorage.setItem(`${scenarioId}-summaryInput`, JSON.stringify(summaryInput));
       router.push(`/scenarios/${scenarioId}/summary`);
     }
   };

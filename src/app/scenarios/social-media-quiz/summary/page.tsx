@@ -1,30 +1,53 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { getPerformanceSummary } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ArrowRight, Lightbulb, UserCheck } from "lucide-react";
+import { Check, ArrowRight, Lightbulb, UserCheck, Loader2 } from "lucide-react";
 import Link from 'next/link';
+import type { PersonalizedPerformanceSummaryOutput, PersonalizedPerformanceSummaryInput } from '@/ai/flows/personalized-performance-summary';
 
-const mockPerformanceData = {
-  scenarioName: "Social Media Quiz",
-  actionsTaken: [
-    "Correctly identified a 'too good to be true' offer on Instagram.",
-    "Correctly spotted a marketplace scam on Facebook."
-  ],
-  identifiedRisks: [
-    {
-      description: "Instagram post offering a free cruise for personal data.",
-      correctlyIdentified: true,
-    },
-     {
-      description: "Facebook marketplace post with several red flags (low price, payment method).",
-      correctlyIdentified: true,
+const scenarioId = 'social-media-quiz';
+
+export default function SummaryPage() {
+  const [summary, setSummary] = useState<PersonalizedPerformanceSummaryOutput | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const summaryInputString = sessionStorage.getItem(`${scenarioId}-summaryInput`);
+    if (summaryInputString) {
+      const summaryInput = JSON.parse(summaryInputString) as PersonalizedPerformanceSummaryInput;
+      
+      const fetchSummary = async () => {
+        const result = await getPerformanceSummary(summaryInput);
+        if (result.error || !result.summary) {
+          setError(result.error || "Could not generate your performance summary.");
+        } else {
+          setSummary(result.summary);
+        }
+        setLoading(false);
+      };
+
+      fetchSummary();
+    } else {
+      setError("No performance data found. Please complete the simulation first.");
+      setLoading(false);
     }
-  ],
-  score: 100,
-};
+  }, []);
 
-export default async function SummaryPage() {
-  const { summary, error } = await getPerformanceSummary(mockPerformanceData);
+  if (loading) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+            <h1 className="mt-6 text-3xl font-bold">Generating your summary...</h1>
+            <p className="mt-2 text-lg text-muted-foreground">
+                Our AI is analyzing your performance.
+            </p>
+        </div>
+    );
+  }
 
   if (error || !summary) {
     return (

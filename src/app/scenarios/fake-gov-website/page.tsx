@@ -173,7 +173,24 @@ export default function FakeGovWebsitePage() {
     if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
-      // Pass answers to summary page via query params or state management
+      const correctAnswers = answers.filter(a => a.isCorrect).length;
+      const score = Math.round((correctAnswers / shuffledScenarios.length) * 100);
+
+      const summaryInput = {
+          scenarioName: "Fake Government Website",
+          actionsTaken: answers.map(a => {
+              const action = a.userAnsweredSuspicious ? 'marked as suspicious' : 'marked as safe';
+              const outcome = a.isCorrect ? 'correctly' : 'incorrectly';
+              return `User ${outcome} ${action} the website with URL: "${a.url}"`;
+          }),
+          identifiedRisks: answers.filter(a => a.isSuspicious).map(a => ({
+              description: `A suspicious website with URL "${a.url}" and title "${a.title}"`,
+              correctlyIdentified: a.userAnsweredSuspicious,
+          })),
+          score: score,
+      };
+      
+      sessionStorage.setItem(`${scenarioId}-summaryInput`, JSON.stringify(summaryInput));
       router.push(`/scenarios/${scenarioId}/summary`);
     }
   };
