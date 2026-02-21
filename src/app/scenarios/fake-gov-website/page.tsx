@@ -173,7 +173,7 @@ export default function FakeGovWebsitePage() {
     if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
-      router.push(`/scenarios/${scenarioId}/summary`);
+      router.push(`/scenarios/${scenarioId}/summary?results=${encodeURIComponent(JSON.stringify(answers))}`);
     }
   };
 
@@ -265,7 +265,7 @@ export default function FakeGovWebsitePage() {
                )}
                <p className="text-sm text-muted-foreground mt-2">{currentAnswerForReview.explanation}</p>
                <Button onClick={handleNext} className="mt-4">
-                 {answers.length < shuffledScenarios.length ? 'Continue Learning' : 'Continue'} <ArrowRight className="ml-2" />
+                 Continue <ArrowRight className="ml-2" />
                </Button>
              </div>
            ) : (
@@ -294,7 +294,7 @@ export default function FakeGovWebsitePage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleNext}>
-                {answers.length < shuffledScenarios.length ? 'Next' : 'Continue'} <ArrowRight className="ml-2" />
+                Continue <ArrowRight className="ml-2" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

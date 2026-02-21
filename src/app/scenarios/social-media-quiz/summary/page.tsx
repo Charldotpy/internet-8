@@ -1,20 +1,17 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, PartyPopper } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from 'next/link';
+import PerformanceSummary from '@/components/performance-summary';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export default function SummaryPage() {
+function SummaryContent() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center flex flex-col items-center gap-6 p-8 border-2 border-dashed rounded-lg">
-        <PartyPopper className="h-16 w-16 text-primary" />
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-          Congratulations!
-        </h1>
-        <p className="mt-2 max-w-2xl mx-auto text-lg text-muted-foreground">
-          You have successfully completed this simulation.
-        </p>
+      <PerformanceSummary scenarioTitle="Social Media Quiz" />
+      <div className="text-center">
         <Button size="lg" asChild className="mt-4">
           <Link href="/">
             Back to Scenarios <ArrowRight className="ml-2" />
@@ -22,5 +19,22 @@ export default function SummaryPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+const SummarySkeleton = () => (
+    <div className="max-w-3xl mx-auto space-y-8">
+        <Skeleton className="h-96 w-full" />
+        <div className="flex justify-center">
+            <Skeleton className="h-12 w-48" />
+        </div>
+    </div>
+)
+
+export default function SummaryPage() {
+  return (
+    <Suspense fallback={<SummarySkeleton />}>
+      <SummaryContent />
+    </Suspense>
   );
 }
