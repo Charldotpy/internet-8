@@ -138,6 +138,12 @@ export default function SocialMediaQuizPage() {
     };
   }, [currentStep]);
 
+  useEffect(() => {
+    if (showResult) {
+      handleSpeak(`${showResult.title}. ${showResult.message}`);
+    }
+  }, [showResult]);
+
   if (shuffledScenarios.length === 0) {
     return null; // Or a loading spinner
   }
