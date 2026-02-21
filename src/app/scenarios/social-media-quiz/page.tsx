@@ -152,7 +152,8 @@ export default function SocialMediaQuizPage() {
     if (answers.length < shuffledScenarios.length) {
       setCurrentStep(answers.length);
     } else {
-      router.push(`/scenarios/${scenarioId}/summary?results=${encodeURIComponent(JSON.stringify(answers))}`);
+      sessionStorage.setItem(`results-${scenarioId}`, JSON.stringify(answers));
+      router.push(`/scenarios/${scenarioId}/summary`);
     }
   };
 

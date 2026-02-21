@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 function SummaryContent() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <PerformanceSummary scenarioTitle="Fake Government Website" />
+      <PerformanceSummary scenarioTitle="Fake Government Website" scenarioId="fake-gov-website" />
       <div className="text-center">
         <Button size="lg" asChild className="mt-4">
           <Link href="/">

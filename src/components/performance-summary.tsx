@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Answer = {
   isCorrect: boolean;
@@ -35,11 +36,43 @@ const StatCard = ({ title, value, total }: { title: string; value: number; total
 };
 
 
-export default function PerformanceSummary({ scenarioTitle }: { scenarioTitle: string }) {
-  const searchParams = useSearchParams();
-  const results = searchParams.get('results');
+export default function PerformanceSummary({ scenarioTitle, scenarioId }: { scenarioTitle: string, scenarioId: string }) {
+  const [answers, setAnswers] = useState<Answer[] | null>(null);
 
-  if (!results) {
+  useEffect(() => {
+    const resultsJson = sessionStorage.getItem(`results-${scenarioId}`);
+    if (resultsJson) {
+      try {
+        setAnswers(JSON.parse(resultsJson));
+      } catch (e) {
+        console.error("Failed to parse results from session storage", e);
+        setAnswers([]);
+      }
+    } else {
+        setAnswers([]);
+    }
+  }, [scenarioId]);
+
+  if (answers === null) {
+      return (
+          <Card className="w-full max-w-3xl mx-auto">
+              <CardHeader className="text-center">
+                  <Skeleton className="h-10 w-3/4 mx-auto" />
+                  <Skeleton className="h-6 w-1/2 mx-auto mt-2" />
+              </CardHeader>
+              <CardContent className="space-y-6">
+                  <Skeleton className="h-24 w-full" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Skeleton className="h-20 w-full" />
+                      <Skeleton className="h-20 w-full" />
+                  </div>
+                  <Skeleton className="h-40 w-full" />
+              </CardContent>
+          </Card>
+      )
+  }
+
+  if (answers.length === 0) {
     return (
         <Card className="w-full max-w-2xl mx-auto">
             <CardHeader>
@@ -50,7 +83,6 @@ export default function PerformanceSummary({ scenarioTitle }: { scenarioTitle: s
     );
   }
 
-  const answers: Answer[] = JSON.parse(decodeURIComponent(results));
   const totalQuestions = answers.length;
   const correctAnswers = answers.filter(a => a.isCorrect).length;
   const score = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
