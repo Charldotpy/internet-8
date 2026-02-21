@@ -15,10 +15,16 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Answer = {
+  id: number;
   isCorrect: boolean;
   isScam?: boolean;
   isSuspicious?: boolean;
-  // other properties...
+  text?: string;
+  title?: string;
+  explanation: string;
+  userAnsweredScam?: boolean;
+  userAnsweredSuspicious?: boolean;
+  [key: string]: any; // Allow other properties
 };
 
 const StatCard = ({ title, value, total }: { title: string; value: number; total: number }) => {
@@ -88,12 +94,15 @@ export default function PerformanceSummary({ scenarioTitle, scenarioId }: { scen
   const score = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
   const isScamKey = 'isScam' in answers[0] ? 'isScam' : 'isSuspicious';
+  const userAnswerKey = 'userAnsweredScam' in answers[0] ? 'userAnsweredScam' : 'userAnsweredSuspicious';
 
   const totalThreats = answers.filter(a => a[isScamKey]).length;
   const correctlyIdentifiedThreats = answers.filter(a => a[isScamKey] && a.isCorrect).length;
   
   const totalSafe = answers.filter(a => !a[isScamKey]).length;
   const correctlyIdentifiedSafe = answers.filter(a => !a[isScamKey] && a.isCorrect).length;
+
+  const wrongAnswers = answers.filter(a => !a.isCorrect);
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -103,7 +112,7 @@ export default function PerformanceSummary({ scenarioTitle, scenarioId }: { scen
             You completed the "{scenarioTitle}" scenario.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-8">
         <div className="text-center p-6 bg-secondary rounded-lg">
             <p className="text-muted-foreground">Your Score</p>
             <p className="text-6xl font-bold text-primary">{score}%</p>
@@ -116,44 +125,51 @@ export default function PerformanceSummary({ scenarioTitle, scenarioId }: { scen
         </div>
         
         <div>
-            <h3 className="font-bold mb-2 text-lg">Category Performance</h3>
+            <h3 className="font-bold text-lg">Review Your Mistakes</h3>
             <p className="text-muted-foreground text-sm mb-4">
-                Here's a breakdown of how you did on identifying threats versus safe items.
+                Here's a breakdown of the questions you got wrong.
             </p>
-            <div className='border rounded-lg'>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Category</TableHead>
-                            <TableHead className='text-right'>Accuracy</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <div className='flex items-center gap-2 font-medium'>
-                                    <AlertCircle className='h-5 w-5 text-destructive'/>
-                                    <span>Identifying Threats</span>
-                                </div>
-                            </TableCell>
-                            <TableCell className='text-right font-mono font-semibold'>
-                                {correctlyIdentifiedThreats} / {totalThreats} ({totalThreats > 0 ? Math.round((correctlyIdentifiedThreats / totalThreats) * 100) : 0}%)
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <div className='flex items-center gap-2 font-medium'>
-                                    <CheckCircle2 className='h-5 w-5 text-green-600'/>
-                                    <span>Identifying Safe Items</span>
-                                </div>
-                            </TableCell>
-                            <TableCell className='text-right font-mono font-semibold'>
-                                {correctlyIdentifiedSafe} / {totalSafe} ({totalSafe > 0 ? Math.round((correctlyIdentifiedSafe / totalSafe) * 100) : 0}%)
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </div>
+            {wrongAnswers.length > 0 ? (
+                 <div className='border rounded-lg'>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Scenario</TableHead>
+                                <TableHead>Your Answer</TableHead>
+                                <TableHead>Correct Answer</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {wrongAnswers.map((answer) => (
+                                <TableRow key={answer.id}>
+                                    <TableCell>
+                                        <p className='font-medium'>{answer.text || answer.title || `Question ${answer.id}`}</p>
+                                        <p className='text-xs text-muted-foreground mt-1'>{answer.explanation}</p>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className='flex items-center gap-2 text-destructive'>
+                                            <AlertCircle className="h-4 w-4" />
+                                            <span>{answer[userAnswerKey] ? 'Threat' : 'Safe'}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                       <div className='flex items-center gap-2 text-green-600'>
+                                            <CheckCircle2 className="h-4 w-4" />
+                                            <span>{answer[isScamKey] ? 'Threat' : 'Safe'}</span>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            ) : (
+                <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
+                    <CheckCircle2 className="h-12 w-12 mx-auto text-green-500" />
+                    <p className="mt-4 font-semibold text-lg">Congratulations!</p>
+                    <p>You didn't get any questions wrong!</p>
+                </div>
+            )}
         </div>
 
       </CardContent>
