@@ -175,9 +175,15 @@
       "imageHint": "celebrity photo"
     },
     {
+      "id": "social-profile-charity",
+      "description": "Logo for a local charity",
+      "imageUrl": "https://images.unsplash.com/photo-1758790636662-2f8eec12077e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjaGFyaXR5JTIwbG9nb3xlbnwwfHx8fDE3NzE2NDg1MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "charity logo"
+    },
+    {
       "id": "social-post-charity",
       "description": "A graphic for a charity drive",
-      "imageUrl": "https://images.unsplash.com/photo-1571609451312-0cf1344f94d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjaGFyaXR5JTIwZHJpdmV8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1571609451312-0cf1344f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjaGFyaXR5JTIwZHJpdmV8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "charity drive"
     },
     {
