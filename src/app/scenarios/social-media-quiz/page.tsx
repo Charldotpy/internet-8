@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Heart, MessageCircle, Send, Bookmark, Users } from 'lucide-react';
+import { ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Heart, MessageCircle, Send, Bookmark, Users, Volume2 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
@@ -117,9 +117,26 @@ export default function SocialMediaQuizPage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
+  const handleSpeak = (text: string) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   useEffect(() => {
     setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
   }, []);
+
+  useEffect(() => {
+    // Stop speech when component unmounts or step changes
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [currentStep]);
 
   if (shuffledScenarios.length === 0) {
     return null; // Or a loading spinner
@@ -164,6 +181,7 @@ export default function SocialMediaQuizPage() {
   }
 
   const renderScenarioContent = () => {
+    const textToSpeak = `${currentScenario.profileName} wrote: ${currentScenario.text}`;
     return (
       <div className="bg-white dark:bg-black rounded-lg border max-w-md mx-auto">
         {/* Post Header */}
@@ -196,10 +214,15 @@ export default function SocialMediaQuizPage() {
 
         {/* Post Text */}
         <div className="px-3 pb-4">
-            <p className="text-sm">
+          <div className="flex items-start gap-2 pt-2">
+            <p className="text-sm flex-grow">
                 <span className="font-semibold cursor-pointer">{currentScenario.profileName}</span>{' '}
                 {currentScenario.text}
             </p>
+            <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0" aria-label="Read post aloud">
+                <Volume2 className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
     );

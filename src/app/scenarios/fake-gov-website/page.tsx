@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldAlert, ChevronLeft, Check, AlertTriangle, ArrowRight, CheckCircle, XCircle, Lock } from 'lucide-react';
+import { ShieldAlert, ChevronLeft, Check, AlertTriangle, ArrowRight, CheckCircle, XCircle, Lock, Volume2 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
@@ -138,9 +138,26 @@ export default function FakeGovWebsitePage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
+  const handleSpeak = (text: string) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+  
   useEffect(() => {
     setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
   }, []);
+
+  useEffect(() => {
+    // Stop speech when component unmounts or step changes
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [currentStep]);
 
   if (shuffledScenarios.length === 0) {
     return null; // Or a loading spinner
@@ -179,11 +196,17 @@ export default function FakeGovWebsitePage() {
   };
 
   const renderScenarioContent = () => {
+    const textToSpeak = `${currentScenario.title}. ${currentScenario.body}`;
     return (
         <FakeBrowserFrame url={currentScenario.url}>
             <div className='text-center space-y-4'>
                 <h2 className='text-2xl font-bold text-primary'>{currentScenario.title}</h2>
-                <p className='text-muted-foreground'>{currentScenario.body}</p>
+                <div className="flex items-center gap-2">
+                    <p className='text-muted-foreground flex-grow text-left'>{currentScenario.body}</p>
+                    <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0 self-center" aria-label="Read content aloud">
+                        <Volume2 className="h-5 w-5" />
+                    </Button>
+                </div>
                 <div className='space-y-4 pt-4'>
                     {currentScenario.inputs.map((input, index) => (
                         <FakeInput key={index} label={input.label} placeholder={input.placeholder} />

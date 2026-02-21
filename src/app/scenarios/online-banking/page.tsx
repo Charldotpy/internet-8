@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Landmark, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
+import { Landmark, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Volume2 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
@@ -94,9 +94,26 @@ export default function OnlineBankingQuizPage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
+  const handleSpeak = (text: string) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   useEffect(() => {
     setShuffledScenarios([...scenarios].sort(() => Math.random() - 0.5));
   }, []);
+
+  useEffect(() => {
+    // Stop speech when component unmounts or step changes
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [currentStep]);
 
   if (shuffledScenarios.length === 0) {
     return null; // Or a loading spinner
@@ -139,9 +156,9 @@ export default function OnlineBankingQuizPage() {
   };
 
   const renderScenarioContent = () => {
-    switch (currentScenario.type) {
-      case 'email':
-        return (
+    const content = (
+      <>
+        {currentScenario.type === 'email' && (
           <div className="text-left text-sm p-4 border rounded-lg bg-card">
             <div className="flex justify-between text-muted-foreground">
               <p>From: {currentScenario.sender}</p>
@@ -150,9 +167,8 @@ export default function OnlineBankingQuizPage() {
             <hr className="my-2"/>
             <p className="mt-4 text-base">“{currentScenario.text}”</p>
           </div>
-        );
-      case 'login':
-        return (
+        )}
+        {currentScenario.type === 'login' && (
              <Alert variant='default'>
                 <AlertTitle>Check the URL</AlertTitle>
                 <AlertDescription>
@@ -162,14 +178,23 @@ export default function OnlineBankingQuizPage() {
                     </div>
                 </AlertDescription>
             </Alert>
-        )
-      default:
-        return (
+        )}
+        {(currentScenario.type !== 'email' && currentScenario.type !== 'login') && (
             <div className="bg-card text-card-foreground p-4 rounded-xl shadow-md">
                 <p className="text-base sm:text-lg">“{currentScenario.text}”</p>
             </div>
-        );
-    }
+        )}
+      </>
+    );
+
+    return (
+        <div className="flex items-center gap-2">
+            <div className="flex-grow">{content}</div>
+            <Button variant="ghost" size="icon" onClick={() => handleSpeak(currentScenario.text)} className="shrink-0" aria-label="Read message aloud">
+                <Volume2 className="h-5 w-5" />
+            </Button>
+        </div>
+    );
   }
 
 
