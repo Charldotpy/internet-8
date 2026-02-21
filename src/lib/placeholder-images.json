@@ -33,7 +33,7 @@
     {
       "id": "social-profile-cruise",
       "description": "A logo for a cruise company",
-      "imageUrl": "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NzEwMTg1ODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1619551734325-81aaf323686c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NzE2MDgyNzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "company logo"
     },
     {
@@ -45,13 +45,13 @@
     {
       "id": "social-profile-natgeo",
       "description": "A logo for a nature publication",
-      "imageUrl": "https://images.unsplash.com/photo-1562705121-e624542c7b9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29tcGFueSUyMGxvZ298ZW58MHx8fHwxNzcxMDE4NTg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NzE2MDgyNzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "company logo"
     },
     {
       "id": "social-profile-anna",
       "description": "An avatar for a person named Anna",
-      "imageUrl": "https://images.unsplash.com/photo-1750535135704-f9a5dba67e46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcwOTk2NTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcxNTgxNjMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person avatar"
     },
     {
@@ -63,13 +63,13 @@
     {
       "id": "social-profile-john",
       "description": "An avatar for a person named John",
-      "imageUrl": "https://images.unsplash.com/photo-1750535135593-3a8e5def331d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBhdmF0YXJ8ZW58MHx8fHwxNzcwOTk2NTI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1750535135677-ed85c46d8201?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwYXZhdGFyfGVufDB8fHx8MTc3MTU4MTYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person avatar"
     },
     {
       "id": "social-profile-community",
       "description": "A logo for a community group",
-      "imageUrl": "https://images.unsplash.com/photo-1516975069151-6900d0759329?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21tdW5pdHl8ZW58MHx8fHwxNzcxMDYxMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1770129966240-abfaa8fb6272?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBsb2dvfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "community logo"
     },
     {
@@ -81,7 +81,7 @@
     {
       "id": "social-profile-crypto",
       "description": "An avatar for a crypto enthusiast",
-      "imageUrl": "https://images.unsplash.com/photo-1641823733971-9f87c9385b2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjeWJlcnB1bmslMjBhdmF0YXJ8ZW58MHx8fHwxNzcxMDYxMzE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/crypto-avatar/100/100",
       "imageHint": "crypto avatar"
     },
     {
@@ -93,13 +93,13 @@
     {
       "id": "social-profile-aunt",
       "description": "An avatar for an aunt",
-      "imageUrl": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdmF0YXJ8ZW58MHx8fHwxNzcxMDYxNDM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/aunt-avatar/100/100",
       "imageHint": "aunt avatar"
     },
     {
       "id": "social-profile-baker",
       "description": "A logo for a baking account",
-      "imageUrl": "https://images.unsplash.com/photo-1629824243997-294c7b80a747?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYWtlcnklMjBsb2dvfGVufDB8fHx8MTc3MTA2MTQ4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1755409022230-7d96727f4b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYWtlciUyMGxvZ298ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "baker logo"
     },
     {
@@ -107,6 +107,186 @@
       "description": "A picture of a decorated cake",
       "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYWtlfGVufDB8fHx8MTc3MTA2MTUxNHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "decorated cake"
+    },
+    {
+      "id": "social-profile-recruiter",
+      "description": "A professional looking person for a recruiter profile",
+      "imageUrl": "https://images.unsplash.com/photo-1585972949666-b524240f33cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyZWNydWl0ZXIlMjBhdmF0YXJ8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "recruiter avatar"
+    },
+    {
+      "id": "social-post-job",
+      "description": "A graphic for a job posting",
+      "imageUrl": "https://images.unsplash.com/photo-1760549617475-a518c53fc9e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxqb2IlMjBwb3N0aW5nfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "job posting"
+    },
+    {
+      "id": "social-profile-friend2",
+      "description": "A profile picture of a friend",
+      "imageUrl": "https://images.unsplash.com/photo-1635194936300-08a36d3a90de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmcmllbmQlMjBhdmF0YXJ8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "friend avatar"
+    },
+    {
+      "id": "social-post-vacation",
+      "description": "A vacation photo from a beach",
+      "imageUrl": "https://images.unsplash.com/photo-1718369721300-abbe602b7f22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx2YWNhdGlvbiUyMHBob3RvfGVufDB8fHx8MTc3MTY0ODI3MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vacation photo"
+    },
+    {
+      "id": "social-profile-news",
+      "description": "Logo for a news organization",
+      "imageUrl": "https://images.unsplash.com/photo-1662057168152-d5dc088deb25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmV3cyUyMGxvZ298ZW58MHx8fHwxNzcxNjM3Njk3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "news logo"
+    },
+    {
+      "id": "social-post-breaking",
+      "description": "Graphic for a breaking news story",
+      "imageUrl": "https://images.unsplash.com/photo-1485115905815-74a5c9fda2f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxicmVha2luZyUyMG5ld3N8ZW58MHx8fHwxNzcxNTc3Njg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "breaking news"
+    },
+    {
+      "id": "social-profile-health",
+      "description": "Profile picture of a supposed health guru",
+      "imageUrl": "https://picsum.photos/seed/health-guru/100/100",
+      "imageHint": "health guru"
+    },
+    {
+      "id": "social-post-pills",
+      "description": "A picture of some pills or supplements",
+      "imageUrl": "https://images.unsplash.com/photo-1734607404671-f2b878caf3ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwaWxscyUyMHN1cHBsZW1lbnRzfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pills supplements"
+    },
+    {
+      "id": "social-profile-pet-shelter",
+      "description": "Logo for a pet shelter",
+      "imageUrl": "https://images.unsplash.com/photo-1728289963831-19cbb99665ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzaGVsdGVyJTIwbG9nb3xlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "shelter logo"
+    },
+    {
+      "id": "social-post-puppy",
+      "description": "A cute puppy available for adoption",
+      "imageUrl": "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjdXRlJTIwcHVwcHl8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cute puppy"
+    },
+    {
+      "id": "social-profile-celebrity",
+      "description": "A photo of a celebrity",
+      "imageUrl": "https://images.unsplash.com/photo-1735827425590-d19a314b5ae0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjZWxlYnJpdHklMjBwaG90b3xlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "celebrity photo"
+    },
+    {
+      "id": "social-post-charity",
+      "description": "A graphic for a charity drive",
+      "imageUrl": "https://images.unsplash.com/photo-1571609451312-0cf1344f94d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjaGFyaXR5JTIwZHJpdmV8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "charity drive"
+    },
+    {
+      "id": "social-profile-gamer",
+      "description": "An avatar for a gamer",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1557250028-69f1fcb3d82c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lciUyMGF2YXRhcnxlbnwwfHx8fDE3NzE2NDgxNzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gamer avatar"
+    },
+    {
+      "id": "social-post-game",
+      "description": "A screenshot from a video game",
+      "imageUrl": "https://images.unsplash.com/photo-1717995045693-51ca3745213b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYW1lJTIwc2NyZWVuc2hvdHxlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game screenshot"
+    },
+    {
+      "id": "social-profile-car-brand",
+      "description": "Logo for a luxury car brand",
+      "imageUrl": "https://images.unsplash.com/photo-1719954147576-f103d71cd979?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYXIlMjBicmFuZHxlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "car brand"
+    },
+    {
+      "id": "social-post-car",
+      "description": "A picture of a new luxury car",
+      "imageUrl": "https://images.unsplash.com/photo-1618418721668-0d1f72aa4bab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsdXh1cnklMjBjYXJ8ZW58MHx8fHwxNzcxNjA5NzI0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "luxury car"
+    },
+    {
+      "id": "social-profile-foodie",
+      "description": "Avatar for a food blogger",
+      "imageUrl": "https://images.unsplash.com/photo-1730156669042-7bd05ad94133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmb29kaWUlMjBhdmF0YXJ8ZW58MHx8fHwxNzcxNjQ4MjcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "foodie avatar"
+    },
+    {
+      "id": "social-post-food",
+      "description": "A picture of a delicious meal",
+      "imageUrl": "https://images.unsplash.com/photo-1614597134736-a8e0616933d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZWxpY2lvdXMlMjBtZWFsfGVufDB8fHx8MTc3MTU3MDE2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "delicious meal"
+    },
+    {
+      "id": "social-profile-phone-brand",
+      "description": "Logo for a phone brand",
+      "imageUrl": "https://images.unsplash.com/photo-1580422605366-cfb9b577b361?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwaG9uZSUyMGJyYW5kfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "phone brand"
+    },
+    {
+      "id": "social-post-phone",
+      "description": "Picture of a new smartphone",
+      "imageUrl": "https://images.unsplash.com/photo-1608475035577-e0934f4afbf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxuZXclMjBzbWFydHBob25lfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "new smartphone"
+    },
+    {
+      "id": "social-profile-quiz",
+      "description": "Logo for a fun quiz page",
+      "imageUrl": "https://images.unsplash.com/photo-1758144217216-164dfbb67c64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxxdWl6JTIwbG9nb3xlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "quiz logo"
+    },
+    {
+      "id": "social-post-quiz",
+      "description": "A graphic for a personality quiz",
+      "imageUrl": "https://images.unsplash.com/photo-1675445991060-14c7f43d8fd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb25hbGl0eSUyMHF1aXp8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "personality quiz"
+    },
+    {
+      "id": "social-profile-grandma",
+      "description": "Avatar of a sweet grandma",
+      "imageUrl": "https://images.unsplash.com/photo-1637080146000-4c0673b1bb71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxncmFuZG1hJTIwYXZhdGFyfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "grandma avatar"
+    },
+    {
+      "id": "social-post-baby",
+      "description": "A picture of a cute baby",
+      "imageUrl": "https://images.unsplash.com/photo-1630305131239-c8df91783f10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjdXRlJTIwYmFieXxlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cute baby"
+    },
+    {
+      "id": "social-profile-gardener",
+      "description": "Avatar for a gardening enthusiast",
+      "imageUrl": "https://picsum.photos/seed/gardener-avatar/100/100",
+      "imageHint": "gardener avatar"
+    },
+    {
+      "id": "social-post-garden",
+      "description": "A picture of a beautiful garden",
+      "imageUrl": "https://images.unsplash.com/photo-1580600301354-0ce8faef576c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZWF1dGlmdWwlMjBnYXJkZW58ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beautiful garden"
+    },
+    {
+      "id": "social-profile-lost-item",
+      "description": "Profile picture for a lost and found page",
+      "imageUrl": "https://images.unsplash.com/photo-1729493744164-6aad9c6e23fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxsb3N0JTIwZm91bmR8ZW58MHx8fHwxNzcxNjQ4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lost found"
+    },
+    {
+      "id": "social-post-lost-wallet",
+      "description": "A picture of a wallet",
+      "imageUrl": "https://images.unsplash.com/photo-1703466288688-d0a0d75ae730?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3YWxsZXQlMjBwaG90b3xlbnwwfHx8fDE3NzE2NDgyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wallet photo"
+    },
+    {
+      "id": "social-profile-tech-support",
+      "description": "A logo for a tech support company",
+      "imageUrl": "https://images.unsplash.com/photo-1709873582570-4f17d43921d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdXBwb3J0JTIwbG9nb3xlbnwwfHx8fDE3NzE2NDgyNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "support logo"
+    },
+    {
+      "id": "social-post-virus-warning",
+      "description": "A graphic showing a virus warning",
+      "imageUrl": "https://images.unsplash.com/photo-1590789834437-1729df0e2bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dmlydXMlMjB3YXJuaW5nfGVufDB8fHx8MTc3MTY0ODI2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "virus warning"
     }
   ]
 }
