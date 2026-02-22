@@ -22,6 +22,7 @@ import { placeholderImageMap } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { generateSocialMediaScenarios } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
+import LinkifiedText from '@/components/linkified-text';
 
 
 const scenarioId = 'social-media-quiz';
@@ -229,7 +230,7 @@ export default function SocialMediaQuizPage() {
           <div className="flex items-start gap-2 pt-2">
             <p className="text-sm flex-grow">
                 <span className="font-semibold cursor-pointer">{currentScenario.profileName}</span>{' '}
-                {currentScenario.text}
+                <LinkifiedText text={currentScenario.text} />
             </p>
             <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0" aria-label="Read post aloud">
                 <Volume2 className="h-5 w-5" />

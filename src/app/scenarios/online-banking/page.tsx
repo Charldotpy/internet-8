@@ -19,6 +19,7 @@ import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/component
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { generateBankingScenarios } from '@/lib/actions';
+import LinkifiedText from '@/components/linkified-text';
 
 const scenarioId = 'online-banking';
 
@@ -190,23 +191,23 @@ export default function OnlineBankingQuizPage() {
               <p>Subject: {currentScenario.subject}</p>
             </div>
             <hr className="my-2"/>
-            <p className="mt-4 text-base">“{currentScenario.text}”</p>
+            <p className="mt-4 text-base">“<LinkifiedText text={currentScenario.text} />”</p>
           </div>
         )}
         {currentScenario.type === 'login' && (
              <Alert variant='default'>
                 <AlertTitleUI>Check the URL</AlertTitleUI>
                 <AlertDescription>
-                    <p className='text-base mb-2'>“{currentScenario.text}”</p>
+                    <p className='text-base mb-2'>“<LinkifiedText text={currentScenario.text} />”</p>
                     <div className="font-mono bg-muted p-2 rounded-md text-center">
-                        {currentScenario.url}
+                        {currentScenario.url ? <LinkifiedText text={currentScenario.url} /> : ''}
                     </div>
                 </AlertDescription>
             </Alert>
         )}
         {(currentScenario.type !== 'email' && currentScenario.type !== 'login') && (
             <div className="bg-card text-card-foreground p-4 rounded-xl shadow-md">
-                <p className="text-base sm:text-lg">“{currentScenario.text}”</p>
+                <p className="text-base sm:text-lg">“<LinkifiedText text={currentScenario.text} />”</p>
             </div>
         )}
       </>

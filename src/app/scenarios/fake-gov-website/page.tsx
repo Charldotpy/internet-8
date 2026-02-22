@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { generateGovWebsiteScenarios } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
+import LinkifiedText from '@/components/linkified-text';
 
 
 type Scenario = {
@@ -212,7 +213,9 @@ export default function FakeGovWebsitePage() {
             <div className='text-center space-y-4'>
                 <h2 className='text-2xl font-bold text-primary'>{currentScenario.title}</h2>
                 <div className="flex items-center gap-2">
-                    <p className='text-muted-foreground flex-grow text-left'>{currentScenario.body}</p>
+                    <p className='text-muted-foreground flex-grow text-left'>
+                      <LinkifiedText text={currentScenario.body} />
+                    </p>
                     <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0 self-center" aria-label="Read content aloud">
                         <Volume2 className="h-5 w-5" />
                     </Button>

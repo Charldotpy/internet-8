@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { generateSmsScenarios } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
+import LinkifiedText from '@/components/linkified-text';
 
 type Scenario = {
     id: number;
@@ -48,7 +49,7 @@ const FakePhoneFrame = ({ sender, children }: { sender: string, children: React.
 const MessageBubble = ({ text }: { text: string }) => (
     <div className="flex justify-start">
         <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-2xl max-w-[85%] my-1 rounded-bl-lg">
-            <p className="text-sm">{text}</p>
+            <p className="text-sm"><LinkifiedText text={text} /></p>
         </div>
     </div>
 );
