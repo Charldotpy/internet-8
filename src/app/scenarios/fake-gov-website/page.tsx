@@ -79,37 +79,52 @@ export default function FakeGovWebsitePage() {
   
   useEffect(() => {
     const scenarioStorageKey = `scenarios-${scenarioId}`;
-    const fetchScenarios = async () => {
-        setIsLoading(true);
-        setError(null);
-        
-        const storedScenarios = sessionStorage.getItem(scenarioStorageKey);
-        if (storedScenarios) {
-            try {
-                setShuffledScenarios(JSON.parse(storedScenarios));
-                setIsLoading(false);
-                return;
-            } catch (e) {
-                console.error("Failed to parse stored scenarios, fetching new ones.", e);
-                sessionStorage.removeItem(scenarioStorageKey);
-            }
-        }
+    let isMounted = true;
 
+    const fetchScenarios = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      // This part is synchronous, it runs before any potential unmount in strict mode.
+      const storedScenarios = sessionStorage.getItem(scenarioStorageKey);
+      if (storedScenarios) {
         try {
-            const scenarios = await generateGovWebsiteScenarios({ count: 8 });
-            if (!scenarios || scenarios.length === 0) {
-                throw new Error('Could not generate the simulation scenarios.');
-            }
-            sessionStorage.setItem(scenarioStorageKey, JSON.stringify(scenarios));
-            setShuffledScenarios(scenarios);
-        } catch (e: any) {
-            console.error(e);
-            setError(e.message || 'An unexpected error occurred while setting up the simulation.');
-        } finally {
-            setIsLoading(false);
+          setShuffledScenarios(JSON.parse(storedScenarios));
+          setIsLoading(false);
+          return;
+        } catch (e) {
+          console.error("Failed to parse stored scenarios, fetching new ones.", e);
+          sessionStorage.removeItem(scenarioStorageKey);
         }
+      }
+
+      // This part is async and can cause a race condition.
+      try {
+        const scenarios = await generateGovWebsiteScenarios({ count: 8 });
+        if (isMounted) {
+          if (!scenarios || scenarios.length === 0) {
+            throw new Error('Could not generate the simulation scenarios.');
+          }
+          sessionStorage.setItem(scenarioStorageKey, JSON.stringify(scenarios));
+          setShuffledScenarios(scenarios);
+        }
+      } catch (e: any) {
+        console.error(e);
+        if (isMounted) {
+          setError(e.message || 'An unexpected error occurred while setting up the simulation.');
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     };
+
     fetchScenarios();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -321,6 +336,8 @@ export default function FakeGovWebsitePage() {
     </div>
   );
 }
+
+    
 
     
 
