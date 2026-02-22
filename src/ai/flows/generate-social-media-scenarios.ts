@@ -50,9 +50,9 @@ Each scenario should be an object with the following structure:
 - "profileName": The name of the profile.
 - "profileImageId": The ID of an appropriate profile image. Choose one from this list: ${imageIdList.filter(id => id.includes('profile')).join(', ')}.
 - "imageId": The ID of an appropriate image for the post. Choose one from this list: ${imageIdList.filter(id => id.includes('post')).join(', ')}. Omit this field for DMs or text-only posts.
-- "text": The text content of the post or message.
+- "text": The text content of the post or message. For scams, embed a suspicious-looking but fake URL (e.g., bit.ly/prize-claim, free-gifts.net).
 - "isScam": A boolean (true if it's a scam, false if it's safe).
-- "explanation": A concise explanation of why it's a scam or safe.
+- "explanation": A concise explanation of why it's a scam or safe, referencing any suspicious links or tactics.
 
 Provide a mix of scams and safe posts. Scams can include phishing, fake giveaways, investment scams, romance scams, etc. Safe posts should be normal social interactions.
 

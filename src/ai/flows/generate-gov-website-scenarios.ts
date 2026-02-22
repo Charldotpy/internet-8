@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
 Generate {{{count}}} unique scenarios.
 
 Each scenario should be an object with the following structure. You do not need to include the "id" field.
-- "url": The website URL. For suspicious sites, use non-.gov.my domains (like .com, .net, .org, .info) or use deceptive domains (like mygov.com.my, hasil.gov-my.com). For safe sites, use official .gov.my domains (e.g., hasil.gov.my, jpj.gov.my, moh.gov.my). Also use http for some suspicious sites.
+- "url": The website URL. For suspicious sites, use non-.gov.my domains (like .com, .net, .org, .info) or use deceptive domains (like mygov-portal.com, hasil.gov-my.net). For safe sites, use official .gov.my domains (e.g., hasil.gov.my, jpj.gov.my, moh.gov.my). Also use http for some suspicious sites.
 - "title": The webpage title.
 - "body": The text content of the page.
 - "inputs": An array of objects representing form fields, each with a "label" and "placeholder". Can be an empty array if the site is informational.
@@ -44,7 +44,7 @@ Each scenario should be an object with the following structure. You do not need 
 
 Provide a mix of suspicious and safe sites. Suspicious sites should create false urgency, ask for unnecessary personal/financial data, or mimic real services on fake domains. Safe sites should be plausible official government services or informational pages.
 
-Do not repeat scenarios.`,
+Do not repeat scenarios. Avoid generic placeholders like '[fake website]'.`,
 });
 
 export const generateGovWebsiteScenariosFlow = ai.defineFlow(

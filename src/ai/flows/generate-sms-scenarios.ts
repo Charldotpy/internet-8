@@ -28,12 +28,12 @@ const prompt = ai.definePrompt({
 Generate {{{count}}} unique scenarios.
 
 Each scenario should be an object with the following structure. You do not need to include the "id" field.
-- "sender": The sender of the message.
-- "text": The content of the message.
+- "sender": The sender of the message. For scams, this can be a realistic but fake phone number (e.g., '+6012-345-6789') or a vague business name (e.g., 'MyDelivery'). For safe messages, it can be a known brand or service (e.g., 'Grab').
+- "text": The content of the message. For scams, embed a suspicious-looking but fake URL (e.g., my-bank-login.net, tngo-ewallet.com/update).
 - "isScam": A boolean (true if it's a scam, false if it's safe).
-- "explanation": A concise explanation of why it's a scam or safe.
+- "explanation": A concise explanation of why it's a scam or safe, referencing the sender and any suspicious links.
 
-Provide a mix of scams and safe messages. Scams should use common tactics like urgency, suspicious links, unexpected prizes, or requests for personal information. Safe messages should be typical, everyday communications.
+Provide a mix of scams and safe messages. Scams should use common tactics like urgency, unexpected prizes, or requests for personal information. Safe messages should be typical, everyday communications.
 
 Do not repeat scenarios.`,
 });

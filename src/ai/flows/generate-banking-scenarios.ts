@@ -32,18 +32,18 @@ Generate {{{count}}} unique scenarios.
 
 Each scenario MUST be an object with the following structure:
 - "type": The type of interaction, one of ['email', 'notification', 'offer', 'login', 'sms'].
-- "sender": The sender for 'email' or 'sms' types. If not applicable, this MUST be an empty string ("").
+- "sender": The sender for 'email' or 'sms' types. Use realistic names (e.g., 'NetBank Secure', 'YourBank Rewards') or plausible fake phone numbers. If not applicable, this MUST be an empty string ("").
 - "subject": The subject for 'email' type. If not applicable, this MUST be an empty string ("").
 - "text": The main text content.
-- "url": A URL for 'login' types or links in messages. If not applicable, this MUST be an empty string ("").
+- "url": A URL for 'login' types or links in messages. For scams, create realistic-looking but fake URLs like 'net-bank.co', 'nett-bank.com', or an IP address. For safe scenarios, use a correct-looking URL like 'net-bank.com'. If not applicable, this MUST be an empty string ("").
 - "isScam": A boolean (true if it's a scam, false if it's safe).
 - "explanation": A concise explanation of why it's a scam or safe.
 
 CRITICAL: For fields 'sender', 'subject', and 'url', you MUST provide an empty string "" if the field is not relevant to the scenario type. Do not omit the fields.
 
-Provide a mix of scams and safe situations. Scams should use common phishing tactics, fake URLs, pressure tactics, and too-good-to-be-true offers. Safe situations should represent normal banking interactions.
+Provide a mix of scams and safe situations. Scams should use common phishing tactics, pressure tactics, and too-good-to-be-true offers. Safe situations should represent normal banking interactions.
 
-Do not repeat scenarios. Ensure URLs for scams look subtly wrong (e.g., net-bank.co, nett-bank.com, an IP address). Ensure URLs for safe scenarios are correct (e.g. net-bank.com).`,
+Do not repeat scenarios. Avoid generic placeholders like '[scam website]'.`,
 });
 
 export const generateBankingScenariosFlow = ai.defineFlow(
