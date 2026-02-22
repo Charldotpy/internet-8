@@ -4,6 +4,10 @@ import { z } from 'zod';
 import { aiGuidanceTool } from '@/ai/flows/ai-guidance-tool-flow';
 import { generatePersonalizedPerformanceSummary } from '@/ai/flows/personalized-performance-summary';
 import type { PersonalizedPerformanceSummaryInput } from '@/ai/flows/personalized-performance-summary';
+import { generateSmsScenariosFlow } from '@/ai/flows/generate-sms-scenarios';
+import { generateBankingScenariosFlow } from '@/ai/flows/generate-banking-scenarios';
+import { generateGovWebsiteScenariosFlow } from '@/ai/flows/generate-gov-website-scenarios';
+import { generateSocialMediaScenariosFlow } from '@/ai/flows/generate-social-media-scenarios';
 
 
 export async function getAiGuidance(prevState: any, formData: FormData) {
@@ -38,5 +42,45 @@ export async function getPerformanceSummary(input: PersonalizedPerformanceSummar
   } catch (error) {
     console.error(error);
     return { summary: null, error: 'Failed to generate performance summary.' };
+  }
+}
+
+export async function generateSmsScenarios(input: { count: number }) {
+  try {
+    const result = await generateSmsScenariosFlow(input);
+    return result.scenarios;
+  } catch (error) {
+    console.error('Error generating SMS scenarios:', error);
+    throw new Error('Failed to generate simulation. Please try again.');
+  }
+}
+
+export async function generateBankingScenarios(input: { count: number }) {
+  try {
+    const result = await generateBankingScenariosFlow(input);
+    return result.scenarios;
+  } catch (error) {
+    console.error('Error generating Banking scenarios:', error);
+    throw new Error('Failed to generate simulation. Please try again.');
+  }
+}
+
+export async function generateGovWebsiteScenarios(input: { count: number }) {
+  try {
+    const result = await generateGovWebsiteScenariosFlow(input);
+    return result.scenarios;
+  } catch (error) {
+    console.error('Error generating Gov Website scenarios:', error);
+    throw new Error('Failed to generate simulation. Please try again.');
+  }
+}
+
+export async function generateSocialMediaScenarios(input: { count: number }) {
+  try {
+    const result = await generateSocialMediaScenariosFlow(input);
+    return result.scenarios;
+  } catch (error) {
+    console.error('Error generating Social Media scenarios:', error);
+    throw new Error('Failed to generate simulation. Please try again.');
   }
 }
