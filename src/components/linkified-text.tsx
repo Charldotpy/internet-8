@@ -23,14 +23,12 @@ export default function LinkifiedText({ text }: LinkifiedTextProps) {
       {parts.map((part, i) => {
         if (part.match(urlRegex)) {
           return (
-            <a
+            <span
               key={i}
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              className="text-blue-600 dark:text-blue-400 underline"
+              className="text-blue-600 dark:text-blue-400"
             >
               {part}
-            </a>
+            </span>
           );
         }
         return part;
