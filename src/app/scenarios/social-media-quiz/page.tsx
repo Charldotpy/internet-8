@@ -57,14 +57,29 @@ export default function SocialMediaQuizPage() {
   };
 
   useEffect(() => {
+    const scenarioStorageKey = `scenarios-${scenarioId}`;
     const fetchScenarios = async () => {
         setIsLoading(true);
         setError(null);
+        
+        const storedScenarios = sessionStorage.getItem(scenarioStorageKey);
+        if (storedScenarios) {
+            try {
+                setShuffledScenarios(JSON.parse(storedScenarios));
+                setIsLoading(false);
+                return;
+            } catch (e) {
+                console.error("Failed to parse stored scenarios, fetching new ones.", e);
+                sessionStorage.removeItem(scenarioStorageKey);
+            }
+        }
+
         try {
             const scenarios = await generateSocialMediaScenarios({ count: 8 });
             if (!scenarios || scenarios.length === 0) {
                 throw new Error('Could not generate the simulation scenarios.');
             }
+            sessionStorage.setItem(scenarioStorageKey, JSON.stringify(scenarios));
             setShuffledScenarios(scenarios);
         } catch (e: any) {
             console.error(e);
@@ -320,4 +335,6 @@ export default function SocialMediaQuizPage() {
     </div>
   );
 }
+    
+
     
