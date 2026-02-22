@@ -6,10 +6,10 @@ import {z} from 'genkit';
 const BankingScenarioSchema = z.object({
     id: z.number().optional(),
     type: z.enum(['email', 'notification', 'offer', 'login', 'sms']).describe("The type of banking interaction."),
-    sender: z.string().nullable().describe("The sender of the email or SMS. MUST be provided for 'email' and 'sms' types, otherwise it MUST be null."),
-    subject: z.string().nullable().describe("The subject of the email. MUST be provided for 'email' type, otherwise it MUST be null."),
+    sender: z.string().optional().describe("The sender of the email or SMS. Only for 'email' and 'sms' types."),
+    subject: z.string().optional().describe("The subject of the email. Only for 'email' type."),
     text: z.string().describe("The main content of the message or scenario description."),
-    url: z.string().nullable().describe("A URL associated with the scenario. Often used for 'login' types or links in messages. Can be null."),
+    url: z.string().optional().describe("A URL associated with the scenario. Often used for 'login' types or links in messages."),
     isScam: z.boolean().describe("Whether the situation is a scam or safe."),
     explanation: z.string().describe("A brief explanation of why the situation is a scam or safe."),
 });
@@ -30,16 +30,16 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario MUST be an object with the following structure. You do not need to include the "id" field.
+Each scenario MUST be an object with the following structure:
 - "type": The type of interaction, one of ['email', 'notification', 'offer', 'login', 'sms'].
-- "sender": The sender for 'email' or 'sms' types. This field MUST be null for other types.
-- "subject": The subject for 'email' type. This field MUST be null for other types.
+- "sender": The sender for 'email' or 'sms' types. Omit this field for other types.
+- "subject": The subject for 'email' type. Omit this field for other types.
 - "text": The main text content.
-- "url": A URL for 'login' types or links in messages. This field can be null if not applicable.
+- "url": A URL for 'login' types or links in messages. Omit this field if not applicable.
 - "isScam": A boolean (true if it's a scam, false if it's safe).
 - "explanation": A concise explanation of why it's a scam or safe.
 
-CRITICAL: You MUST provide a value for all fields, using null where appropriate for "sender", "subject", and "url".
+CRITICAL: Only include "sender", "subject", and "url" when they are relevant to the scenario type.
 
 Provide a mix of scams and safe situations. Scams should use common phishing tactics, fake URLs, pressure tactics, and too-good-to-be-true offers. Safe situations should represent normal banking interactions.
 

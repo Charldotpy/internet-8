@@ -8,7 +8,7 @@ const SocialMediaScenarioSchema = z.object({
     platform: z.string().describe("The social media platform, e.g., 'Instagram', 'Facebook', 'Instagram DM', 'Facebook DM'"),
     profileName: z.string().describe("The name of the user or page making the post/sending the message."),
     profileImageId: z.string().describe("The ID of a suitable profile image from the provided list."),
-    imageId: z.string().optional().nullable().describe("The ID of a suitable post image from the provided list. Can be null for DMs or text-only posts."),
+    imageId: z.string().optional().describe("The ID of a suitable post image from the provided list. Omit this for DMs or text-only posts."),
     text: z.string().describe("The text content of the post or message."),
     isScam: z.boolean().describe("Whether the situation is a scam or safe."),
     explanation: z.string().describe("A brief explanation of why it's a scam or safe."),
@@ -45,11 +45,11 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario should be an object with the following structure. You do not need to include the "id" field.
+Each scenario should be an object with the following structure:
 - "platform": The social media platform, e.g. 'Instagram', 'Facebook', 'Instagram DM', or 'Facebook DM'.
 - "profileName": The name of the profile.
 - "profileImageId": The ID of an appropriate profile image. Choose one from this list: ${imageIdList.filter(id => id.includes('profile')).join(', ')}.
-- "imageId": (Optional) The ID of an appropriate image for the post. Choose one from this list: ${imageIdList.filter(id => id.includes('post')).join(', ')}. Can be null.
+- "imageId": The ID of an appropriate image for the post. Choose one from this list: ${imageIdList.filter(id => id.includes('post')).join(', ')}. Omit this field for DMs or text-only posts.
 - "text": The text content of the post or message.
 - "isScam": A boolean (true if it's a scam, false if it's safe).
 - "explanation": A concise explanation of why it's a scam or safe.
