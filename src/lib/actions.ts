@@ -29,9 +29,9 @@ export async function getAiGuidance(prevState: any, formData: FormData) {
   try {
     const result = await aiGuidanceTool({ question: validatedFields.data.question });
     return { tip: result.tip, error: '' };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { tip: '', error: 'Sorry, I had trouble getting a tip. Please try again.' };
+    return { tip: '', error: error.message || 'Sorry, I had trouble getting a tip. Please try again.' };
   }
 }
 
@@ -39,9 +39,9 @@ export async function getPerformanceSummary(input: PersonalizedPerformanceSummar
   try {
     const summary = await generatePersonalizedPerformanceSummary(input);
     return { summary, error: null };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { summary: null, error: 'Failed to generate performance summary.' };
+    return { summary: null, error: error.message || 'Failed to generate performance summary.' };
   }
 }
 
@@ -49,9 +49,9 @@ export async function generateSmsScenarios(input: { count: number }) {
   try {
     const result = await generateSmsScenariosFlow(input);
     return result.scenarios;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating SMS scenarios:', error);
-    throw new Error('Failed to generate simulation. Please try again.');
+    throw new Error(error.message || 'Failed to generate simulation. Please try again.');
   }
 }
 
@@ -59,9 +59,9 @@ export async function generateBankingScenarios(input: { count: number }) {
   try {
     const result = await generateBankingScenariosFlow(input);
     return result.scenarios;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating Banking scenarios:', error);
-    throw new Error('Failed to generate simulation. Please try again.');
+    throw new Error(error.message || 'Failed to generate simulation. Please try again.');
   }
 }
 
@@ -69,9 +69,9 @@ export async function generateGovWebsiteScenarios(input: { count: number }) {
   try {
     const result = await generateGovWebsiteScenariosFlow(input);
     return result.scenarios;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating Gov Website scenarios:', error);
-    throw new Error('Failed to generate simulation. Please try again.');
+    throw new Error(error.message || 'Failed to generate simulation. Please try again.');
   }
 }
 
@@ -79,8 +79,8 @@ export async function generateSocialMediaScenarios(input: { count: number }) {
   try {
     const result = await generateSocialMediaScenariosFlow(input);
     return result.scenarios;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating Social Media scenarios:', error);
-    throw new Error('Failed to generate simulation. Please try again.');
+    throw new Error(error.message || 'Failed to generate simulation. Please try again.');
   }
 }
