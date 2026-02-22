@@ -4,7 +4,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const BankingScenarioSchema = z.object({
-    id: z.number(),
+    id: z.number().optional(),
     type: z.enum(['email', 'notification', 'offer', 'login', 'sms']).describe("The type of banking interaction."),
     sender: z.string().optional().describe("The sender of the email or SMS. Only for 'email' and 'sms' types."),
     subject: z.string().optional().describe("The subject of the email. Only for 'email' type."),
@@ -30,8 +30,7 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario should be an object with the following structure:
-- "id": A unique number for the scenario.
+Each scenario should be an object with the following structure. You do not need to include the "id" field.
 - "type": The type of interaction, one of ['email', 'notification', 'offer', 'login', 'sms'].
 - "sender": (Optional) The sender for 'email' or 'sms' types.
 - "subject": (Optional) The subject for 'email' type.

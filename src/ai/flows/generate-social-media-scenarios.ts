@@ -4,7 +4,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SocialMediaScenarioSchema = z.object({
-    id: z.number(),
+    id: z.number().optional(),
     platform: z.string().describe("The social media platform, e.g., 'Instagram', 'Facebook', 'Instagram DM', 'Facebook DM'"),
     profileName: z.string().describe("The name of the user or page making the post/sending the message."),
     profileImageId: z.string().describe("The ID of a suitable profile image from the provided list."),
@@ -45,8 +45,7 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario should be an object with the following structure:
-- "id": A unique number for the scenario.
+Each scenario should be an object with the following structure. You do not need to include the "id" field.
 - "platform": The social media platform, e.g. 'Instagram', 'Facebook', 'Instagram DM', or 'Facebook DM'.
 - "profileName": The name of the profile.
 - "profileImageId": The ID of an appropriate profile image. Choose one from this list: ${imageIdList.filter(id => id.includes('profile')).join(', ')}.

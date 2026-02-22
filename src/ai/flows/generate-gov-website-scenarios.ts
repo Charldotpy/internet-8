@@ -4,7 +4,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GovWebsiteScenarioSchema = z.object({
-    id: z.number(),
+    id: z.number().optional(),
     url: z.string().describe("The full URL of the website, including http/https."),
     title: z.string().describe("The title of the webpage."),
     body: z.string().describe("The main content of the webpage."),
@@ -34,8 +34,7 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario should be an object with the following structure:
-- "id": A unique number.
+Each scenario should be an object with the following structure. You do not need to include the "id" field.
 - "url": The website URL. For suspicious sites, use non-.gov.my domains (like .com, .net, .org, .info) or use deceptive domains (like mygov.com.my, hasil.gov-my.com). For safe sites, use official .gov.my domains (e.g., hasil.gov.my, jpj.gov.my, moh.gov.my). Also use http for some suspicious sites.
 - "title": The webpage title.
 - "body": The text content of the page.

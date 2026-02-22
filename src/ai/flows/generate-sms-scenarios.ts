@@ -4,7 +4,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SmsScenarioSchema = z.object({
-    id: z.number(),
+    id: z.number().optional(),
     sender: z.string().describe("The sender of the SMS message, e.g., '555-0102' or 'Delivery Service'."),
     text: z.string().describe("The text content of the SMS message."),
     isScam: z.boolean().describe("Whether the message is a scam or safe."),
@@ -27,8 +27,7 @@ const prompt = ai.definePrompt({
 
 Generate {{{count}}} unique scenarios.
 
-Each scenario should be an object with the following structure:
-- "id": A unique number for the scenario.
+Each scenario should be an object with the following structure. You do not need to include the "id" field.
 - "sender": The sender of the message.
 - "text": The content of the message.
 - "isScam": A boolean (true if it's a scam, false if it's safe).
