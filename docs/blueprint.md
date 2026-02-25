@@ -1,4 +1,4 @@
-# **App Name**: ElderNet Guide
+# **App Name**: Internet 8
 
 ## Core Features:
 
