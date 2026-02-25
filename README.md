@@ -77,6 +77,6 @@ Gemini is used to:
 
 ---
 
-## Team
+## Team Name
 
 Binary Brains
