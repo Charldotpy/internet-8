@@ -107,7 +107,7 @@ export default function AiGuidance() {
           </DialogHeader>
           <form ref={formRef} action={formAction} className="grid gap-4 py-4">
             <Textarea
-              name="question"
+              name="input"
               placeholder="e.g., 'How can I spot a phishing email?'"
               required
               rows={3}

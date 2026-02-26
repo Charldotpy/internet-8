@@ -13,22 +13,22 @@ import { generateTts } from '@/ai/flows/generate-tts';
 
 export async function getAiGuidance(prevState: any, formData: FormData) {
   const schema = z.object({
-    question: z.string().min(1, 'Please enter a question.'),
+    input: z.string().min(1, 'Please enter a question or message.'),
   });
 
   const validatedFields = schema.safeParse({
-    question: formData.get('question'),
+    input: formData.get('input'),
   });
 
   if (!validatedFields.success) {
     return {
       tip: '',
-      error: validatedFields.error.flatten().fieldErrors.question?.join(', '),
+      error: validatedFields.error.flatten().fieldErrors.input?.join(', '),
     };
   }
 
   try {
-    const result = await aiGuidanceTool({ question: validatedFields.data.question });
+    const result = await aiGuidanceTool({ input: validatedFields.data.input });
     return { tip: result.tip, error: '' };
   } catch (error: any) {
     console.error(error);
