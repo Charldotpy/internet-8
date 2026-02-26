@@ -235,6 +235,17 @@ export default function OnlineBankingQuizPage() {
   const renderScenarioContent = () => {
     const cacheKey = `tts-${currentStep}`;
     const isSpeaking = speakingKey === cacheKey;
+
+    const textToSpeakParts = [];
+    if (currentScenario.sender) {
+      textToSpeakParts.push(`From: ${currentScenario.sender}.`);
+    }
+    if (currentScenario.subject) {
+      textToSpeakParts.push(`Subject: ${currentScenario.subject}.`);
+    }
+    textToSpeakParts.push(currentScenario.text);
+    const textToSpeak = textToSpeakParts.join(' ');
+
     const content = (
       <>
         {currentScenario.type === 'email' && (
@@ -272,7 +283,7 @@ export default function OnlineBankingQuizPage() {
             <Button 
               variant="ghost" 
               size="icon" 
-              onClick={() => handleQuestionSpeak(currentScenario.text, cacheKey)} 
+              onClick={() => handleQuestionSpeak(textToSpeak, cacheKey)} 
               className="shrink-0" 
               aria-label="Read message aloud"
               disabled={speakingKey !== null && !isSpeaking}

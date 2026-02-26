@@ -261,6 +261,7 @@ export default function SuspiciousSmsPage() {
   const renderScenarioContent = () => {
     const cacheKey = `tts-${currentStep}`;
     const isSpeaking = speakingKey === cacheKey;
+    const textToSpeak = `Message from ${currentScenario.sender}. ${currentScenario.text}`;
     return (
         <FakePhoneFrame sender={currentScenario.sender}>
             <div className="flex items-center gap-2">
@@ -270,7 +271,7 @@ export default function SuspiciousSmsPage() {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  onClick={() => handleQuestionSpeak(currentScenario.text, cacheKey)} 
+                  onClick={() => handleQuestionSpeak(textToSpeak, cacheKey)} 
                   className="shrink-0" 
                   aria-label="Read message aloud"
                   disabled={speakingKey !== null && !isSpeaking}
