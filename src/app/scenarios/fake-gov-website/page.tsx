@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldAlert, ChevronLeft, Check, AlertTriangle, ArrowRight, CheckCircle, XCircle, Lock, Volume2, Loader2 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { generateGovWebsiteScenarios } from '@/lib/actions';
+import { generateGovWebsiteScenarios, getTtsAudio } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
 import LinkifiedText from '@/components/linkified-text';
 
@@ -70,14 +70,62 @@ export default function FakeGovWebsitePage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
-  const handleSpeak = (text: string) => {
+  const [audioCache, setAudioCache] = useState<Record<string, string>>({});
+  const [speakingKey, setSpeakingKey] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleDialogSpeak = (text: string) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
     }
   };
-  
+
+  const handleQuestionSpeak = async (text: string, cacheKey: string) => {
+    if (speakingKey === cacheKey) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
+      return;
+    }
+    if (speakingKey !== null) {
+      return; 
+    }
+    
+    setSpeakingKey(cacheKey);
+
+    try {
+      let audioSrc = audioCache[cacheKey];
+      if (!audioSrc) {
+        const { audioData, error } = await getTtsAudio({ text });
+        if (error) throw new Error(error);
+        if (!audioData) throw new Error("No audio data received");
+        audioSrc = audioData;
+        setAudioCache(prev => ({ ...prev, [cacheKey]: audioSrc }));
+      }
+      
+      const audio = new Audio(audioSrc);
+      audioRef.current = audio;
+      audio.play();
+      audio.onended = () => {
+        setSpeakingKey(null);
+        audioRef.current = null;
+      };
+    } catch (e) {
+      console.error("TTS failed, falling back to browser synthesis.", e);
+      setSpeakingKey(null); 
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  };
+
   useEffect(() => {
     const scenarioStorageKey = `scenarios-${scenarioId}`;
     let isMounted = true;
@@ -86,7 +134,6 @@ export default function FakeGovWebsitePage() {
       setIsLoading(true);
       setError(null);
 
-      // This part is synchronous, it runs before any potential unmount in strict mode.
       const storedScenarios = sessionStorage.getItem(scenarioStorageKey);
       if (storedScenarios) {
         try {
@@ -99,7 +146,6 @@ export default function FakeGovWebsitePage() {
         }
       }
 
-      // This part is async and can cause a race condition.
       try {
         const scenarios = await generateGovWebsiteScenarios({ count: 8 });
         if (isMounted) {
@@ -129,17 +175,20 @@ export default function FakeGovWebsitePage() {
   }, []);
 
   useEffect(() => {
-    // Stop speech when component unmounts or step changes
     return () => {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
     };
   }, [currentStep]);
 
   useEffect(() => {
     if (showResult) {
-      handleSpeak(`${showResult.title}. ${showResult.message}`);
+      handleDialogSpeak(`${showResult.title}. ${showResult.message}`);
     }
   }, [showResult]);
 
@@ -208,6 +257,9 @@ export default function FakeGovWebsitePage() {
 
   const renderScenarioContent = () => {
     const textToSpeak = `${currentScenario.title}. ${currentScenario.body}`;
+    const cacheKey = `tts-${currentStep}`;
+    const isSpeaking = speakingKey === cacheKey;
+
     return (
         <FakeBrowserFrame url={currentScenario.url}>
             <div className='text-center space-y-4'>
@@ -216,8 +268,15 @@ export default function FakeGovWebsitePage() {
                     <p className='text-muted-foreground flex-grow text-left'>
                       <LinkifiedText text={currentScenario.body} />
                     </p>
-                    <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0 self-center" aria-label="Read content aloud">
-                        <Volume2 className="h-5 w-5" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => handleQuestionSpeak(textToSpeak, cacheKey)}
+                      className="shrink-0 self-center" 
+                      aria-label="Read content aloud"
+                      disabled={speakingKey !== null && !isSpeaking}
+                    >
+                      {isSpeaking ? <Loader2 className="h-5 w-5 animate-spin" /> : <Volume2 className="h-5 w-5" />}
                     </Button>
                 </div>
                 <div className='space-y-4 pt-4'>
@@ -339,9 +398,3 @@ export default function FakeGovWebsitePage() {
     </div>
   );
 }
-
-    
-
-    
-
-    

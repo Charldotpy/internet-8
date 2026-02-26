@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Heart, MessageCircle, Send, Bookmark, Users, Volume2, Loader2, AlertTriangle } from 'lucide-react';
@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { placeholderImageMap } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { generateSocialMediaScenarios } from '@/lib/actions';
+import { generateSocialMediaScenarios, getTtsAudio } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
 import LinkifiedText from '@/components/linkified-text';
 
@@ -49,11 +49,59 @@ export default function SocialMediaQuizPage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
-  const handleSpeak = (text: string) => {
+  const [audioCache, setAudioCache] = useState<Record<string, string>>({});
+  const [speakingKey, setSpeakingKey] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleDialogSpeak = (text: string) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleQuestionSpeak = async (text: string, cacheKey: string) => {
+    if (speakingKey === cacheKey) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
+      return;
+    }
+    if (speakingKey !== null) {
+      return;
+    }
+    
+    setSpeakingKey(cacheKey);
+
+    try {
+      let audioSrc = audioCache[cacheKey];
+      if (!audioSrc) {
+        const { audioData, error } = await getTtsAudio({ text });
+        if (error) throw new Error(error);
+        if (!audioData) throw new Error("No audio data received");
+        audioSrc = audioData;
+        setAudioCache(prev => ({ ...prev, [cacheKey]: audioSrc }));
+      }
+      
+      const audio = new Audio(audioSrc);
+      audioRef.current = audio;
+      audio.play();
+      audio.onended = () => {
+        setSpeakingKey(null);
+        audioRef.current = null;
+      };
+    } catch (e) {
+      console.error("TTS failed, falling back to browser synthesis.", e);
+      setSpeakingKey(null);
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+      }
     }
   };
 
@@ -106,17 +154,20 @@ export default function SocialMediaQuizPage() {
   }, []);
 
   useEffect(() => {
-    // Stop speech when component unmounts or step changes
     return () => {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
     };
   }, [currentStep]);
 
   useEffect(() => {
     if (showResult) {
-      handleSpeak(`${showResult.title}. ${showResult.message}`);
+      handleDialogSpeak(`${showResult.title}. ${showResult.message}`);
     }
   }, [showResult]);
 
@@ -191,6 +242,8 @@ export default function SocialMediaQuizPage() {
 
   const renderScenarioContent = () => {
     const textToSpeak = `${currentScenario.profileName} wrote: ${currentScenario.text}`;
+    const cacheKey = `tts-${currentStep}`;
+    const isSpeaking = speakingKey === cacheKey;
     
     const profileImageSrc = placeholderImageMap[currentScenario.profileImageId]?.imageUrl;
     const postImageSrc = currentScenario.imageId ? placeholderImageMap[currentScenario.imageId]?.imageUrl : null;
@@ -232,8 +285,15 @@ export default function SocialMediaQuizPage() {
                 <span className="font-semibold cursor-pointer">{currentScenario.profileName}</span>{' '}
                 <LinkifiedText text={currentScenario.text} />
             </p>
-            <Button variant="ghost" size="icon" onClick={() => handleSpeak(textToSpeak)} className="shrink-0" aria-label="Read post aloud">
-                <Volume2 className="h-5 w-5" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => handleQuestionSpeak(textToSpeak, cacheKey)} 
+              className="shrink-0" 
+              aria-label="Read post aloud"
+              disabled={speakingKey !== null && !isSpeaking}
+            >
+              {isSpeaking ? <Loader2 className="h-5 w-5 animate-spin" /> : <Volume2 className="h-5 w-5" />}
             </Button>
           </div>
         </div>
@@ -349,8 +409,3 @@ export default function SocialMediaQuizPage() {
     </div>
   );
 }
-    
-
-    
-
-    

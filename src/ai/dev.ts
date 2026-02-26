@@ -7,3 +7,4 @@ import '@/ai/flows/generate-sms-scenarios';
 import '@/ai/flows/generate-banking-scenarios';
 import '@/ai/flows/generate-gov-website-scenarios';
 import '@/ai/flows/generate-social-media-scenarios';
+import '@/ai/flows/generate-tts.ts';

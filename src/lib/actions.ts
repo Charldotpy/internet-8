@@ -8,6 +8,7 @@ import { generateSmsScenariosFlow } from '@/ai/flows/generate-sms-scenarios';
 import { generateBankingScenariosFlow } from '@/ai/flows/generate-banking-scenarios';
 import { generateGovWebsiteScenariosFlow } from '@/ai/flows/generate-gov-website-scenarios';
 import { generateSocialMediaScenariosFlow } from '@/ai/flows/generate-social-media-scenarios';
+import { generateTts } from '@/ai/flows/generate-tts';
 
 
 export async function getAiGuidance(prevState: any, formData: FormData) {
@@ -84,3 +85,13 @@ export async function generateSocialMediaScenarios(input: { count: number }) {
     throw new Error(error.message || 'Failed to generate simulation. Please try again.');
   }
 }
+
+export async function getTtsAudio(input: { text: string }) {
+    try {
+      const result = await generateTts(input);
+      return { audioData: result.audioData, error: null };
+    } catch (error: any) {
+      console.error('Error generating TTS audio:', error);
+      return { audioData: null, error: error.message || 'Failed to generate audio.' };
+    }
+  }

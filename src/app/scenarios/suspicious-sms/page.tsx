@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Smartphone, ChevronLeft, Check, X, ArrowRight, CheckCircle, XCircle, Volume2, Loader2, AlertTriangle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { generateSmsScenarios } from '@/lib/actions';
+import { generateSmsScenarios, getTtsAudio } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle as AlertTitleUI } from '@/components/ui/alert';
 import LinkifiedText from '@/components/linkified-text';
 
@@ -64,11 +64,59 @@ export default function SuspiciousSmsPage() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [shuffledScenarios, setShuffledScenarios] = useState<Scenario[]>([]);
 
-  const handleSpeak = (text: string) => {
+  const [audioCache, setAudioCache] = useState<Record<string, string>>({});
+  const [speakingKey, setSpeakingKey] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleDialogSpeak = (text: string) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
+    }
+  };
+  
+  const handleQuestionSpeak = async (text: string, cacheKey: string) => {
+    if (speakingKey === cacheKey) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
+      return;
+    }
+    if (speakingKey !== null) {
+      return; 
+    }
+    
+    setSpeakingKey(cacheKey);
+
+    try {
+      let audioSrc = audioCache[cacheKey];
+      if (!audioSrc) {
+        const { audioData, error } = await getTtsAudio({ text });
+        if (error) throw new Error(error);
+        if (!audioData) throw new Error("No audio data received");
+        audioSrc = audioData;
+        setAudioCache(prev => ({ ...prev, [cacheKey]: audioSrc }));
+      }
+      
+      const audio = new Audio(audioSrc);
+      audioRef.current = audio;
+      audio.play();
+      audio.onended = () => {
+        setSpeakingKey(null);
+        audioRef.current = null;
+      };
+    } catch (e) {
+      console.error("TTS failed, falling back to browser synthesis.", e);
+      setSpeakingKey(null); 
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+      }
     }
   };
 
@@ -80,7 +128,6 @@ export default function SuspiciousSmsPage() {
       setIsLoading(true);
       setError(null);
 
-      // This part is synchronous, it runs before any potential unmount in strict mode.
       const storedScenarios = sessionStorage.getItem(scenarioStorageKey);
       if (storedScenarios) {
         try {
@@ -93,7 +140,6 @@ export default function SuspiciousSmsPage() {
         }
       }
 
-      // This part is async and can cause a race condition.
       try {
         const scenarios = await generateSmsScenarios({ count: 8 });
         if (isMounted) {
@@ -123,17 +169,20 @@ export default function SuspiciousSmsPage() {
   }, []);
 
   useEffect(() => {
-    // Stop speech when component unmounts or step changes
     return () => {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setSpeakingKey(null);
     };
   }, [currentStep]);
 
   useEffect(() => {
     if (showResult) {
-      handleSpeak(`${showResult.title}. ${showResult.message}`);
+      handleDialogSpeak(`${showResult.title}. ${showResult.message}`);
     }
   }, [showResult]);
 
@@ -210,14 +259,23 @@ export default function SuspiciousSmsPage() {
   };
 
   const renderScenarioContent = () => {
+    const cacheKey = `tts-${currentStep}`;
+    const isSpeaking = speakingKey === cacheKey;
     return (
         <FakePhoneFrame sender={currentScenario.sender}>
             <div className="flex items-center gap-2">
                 <div className="flex-grow">
                     <MessageBubble text={currentScenario.text} />
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => handleSpeak(currentScenario.text)} className="shrink-0" aria-label="Read message aloud">
-                    <Volume2 className="h-5 w-5" />
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => handleQuestionSpeak(currentScenario.text, cacheKey)} 
+                  className="shrink-0" 
+                  aria-label="Read message aloud"
+                  disabled={speakingKey !== null && !isSpeaking}
+                >
+                  {isSpeaking ? <Loader2 className="h-5 w-5 animate-spin" /> : <Volume2 className="h-5 w-5" />}
                 </Button>
             </div>
         </FakePhoneFrame>
@@ -329,9 +387,3 @@ export default function SuspiciousSmsPage() {
     </div>
   );
 }
-
-    
-
-    
-
-    
