@@ -13,7 +13,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { getAiGuidance } from '@/lib/actions';
+import { getAiGuidance, getTtsAudio } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 
 const initialState = {
@@ -35,20 +35,56 @@ export default function AiGuidance() {
   const [isOpen, setIsOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const [state, formAction] = useActionState(getAiGuidance, initialState);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playTts = async (text: string) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    try {
+      const { audioData, error } = await getTtsAudio({ text });
+      if (error) throw new Error(error);
+      if (!audioData) throw new Error('No audio data received');
+
+      const audio = new Audio(audioData);
+      audioRef.current = audio;
+      audio.play();
+    } catch (e) {
+      console.error('TTS failed, falling back to browser synthesis.', e);
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  };
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (!open) {
-      // Reset form when closing dialog
+      // Reset form and stop audio when closing dialog
       formRef.current?.reset();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
     }
   };
 
   useEffect(() => {
-    if (state.tip || state.error) {
-        formRef.current?.reset();
+    if (state.tip) {
+      formRef.current?.reset();
+      playTts(state.tip);
+    } else if (state.error) {
+      formRef.current?.reset();
     }
-  }, [state])
+  }, [state]);
 
   return (
     <>
