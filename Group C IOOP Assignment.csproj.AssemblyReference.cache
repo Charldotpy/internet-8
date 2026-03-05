@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+using Group_C_IOOP_Assignment.Properties;
+using Group_C_IOOP_Assignment;
+
+namespace ManagerViewFeedback
+{
+    public partial class ManagerViewFeedback : Form
+    {
+
+        public static class DBConnection
+        {
+            public static SqlConnection GetConnection()
+            {
+                string connectionString = Settings.Default.DBConnection;
+                return new SqlConnection(connectionString);
+            }
+        }
+
+        public ManagerViewFeedback()
+        {
+            InitializeComponent();
+        }
+        private void LoadFeedbackData()
+        {
+            try
+            {
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    string query = "SELECT FeedbackID, UserID, Feedback FROM Feedbacks";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView1.DataSource = dt;
+                }
+
+                dataGridView1.AutoGenerateColumns = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void ManagerViewFeedback_Load(object sender, EventArgs e)
+        {
+            LoadFeedbackData();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Manager.ManagerHomePage HomePage = new Manager.ManagerHomePage();
+            HomePage.Show();
+            this.Hide();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Group_C_IOOP_Assignment.LoginPage LoginPage = new Group_C_IOOP_Assignment.LoginPage();
+            LoginPage.Show();
+            this.Hide();
+        }
+    }
+}

@@ -1,0 +1,88 @@
+﻿using Manager;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Group_C_IOOP_Assignment.Manager
+{
+    public partial class ManagerRefund : Form
+    {
+
+        private string LoggedInManagerID;
+        private RefundManager refundManager = new RefundManager();
+        public ManagerRefund()
+        {
+            InitializeComponent();
+        }
+
+        private void ManagerRefund_Load(object sender, EventArgs e)
+        {
+            LoadRefundData();
+        }
+
+        private void LoadRefundData()
+        {
+            try
+            {
+                dataGridView1.DataSource = refundManager.LoadRefundRequests();
+
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                {
+                    col.ReadOnly = col.Name != "Status";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            int updatedCount = 0;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                string refundID = row.Cells["RefundID"].Value?.ToString();
+                string status = row.Cells["Status"].Value?.ToString();
+
+                if (!string.IsNullOrEmpty(refundID) && (status == "Approved" || status == "Rejected"))
+                {
+                    bool success = refundManager.UpdateRefundStatus(refundID, status, LoggedInManagerID);
+                    if (success) updatedCount++;
+                }
+            }
+
+            MessageBox.Show($"Successfully updated {updatedCount} refund(s).");
+            LoadRefundData();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Group_C_IOOP_Assignment.LoginPage LoginPage = new Group_C_IOOP_Assignment.LoginPage();
+            LoginPage.Show();
+            this.Hide();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            ManagerHomePage HomePage = new ManagerHomePage();
+            HomePage.Show();
+            this.Hide();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+    }
+}

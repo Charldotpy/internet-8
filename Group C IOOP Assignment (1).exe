@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Group_C_IOOP_Assignment.Manager
+{
+    public class TopUpManager
+    {
+        private string connectionString = Properties.Settings.Default.DBConnection;
+        public decimal GetCurrentBalance(string WalletID)
+        {
+            decimal balance = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT SUM(Amount) FROM Transactions WHERE WalletID = @WalletID";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@WalletID", WalletID);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                    balance = Convert.ToDecimal(result);
+            }
+
+            return balance;
+        }
+
+        public bool TopUpWallet(string WalletID, decimal Amount)
+        {
+            bool success = false;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlTransaction transaction = con.BeginTransaction();
+
+                try
+                {
+                    // Insert into Transactions table
+                    string transId = GenerateTransactionID(con, transaction);
+                    string insertQuery = @"INSERT INTO Transactions (TransID, WalletID, Type, Amount, Date)
+                                           VALUES (@TransID, @WalletID, 'Top Up', @Amount, @Date)";
+                    SqlCommand insertCmd = new SqlCommand(insertQuery, con, transaction);
+                    insertCmd.Parameters.AddWithValue("@TransID", transId);
+                    insertCmd.Parameters.AddWithValue("@WalletID", WalletID);
+                    insertCmd.Parameters.AddWithValue("@Amount", Amount);
+                    insertCmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                    insertCmd.ExecuteNonQuery();
+
+                    // Update Wallet Table
+                    string updateQuery = "UPDATE Wallet SET Balance = Balance + @Amount WHERE WalletID = @WalletID";
+                    SqlCommand updateCmd = new SqlCommand(updateQuery, con, transaction);
+                    updateCmd.Parameters.AddWithValue("@Amount", Amount);
+                    updateCmd.Parameters.AddWithValue("@WalletID", WalletID);
+                    updateCmd.ExecuteNonQuery();
+
+                    transaction.Commit();
+                    success = true;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
+            }
+            return success;
+        }
+
+        private string GenerateTransactionID(SqlConnection con, SqlTransaction Transaction)
+        {
+            string newId = "TR001";
+            string query = "SELECT MAX(TransID) FROM Transactions";
+            SqlCommand cmd = new SqlCommand(query, con, Transaction);
+            object result = cmd.ExecuteScalar();
+            if (result != DBNull.Value && result != null)
+            {
+                string lastId = result.ToString(); 
+                int number = int.Parse(lastId.Substring(2)) + 1;
+                newId = "TR" + number.ToString("D3");
+            }
+            return newId;
+
+        }
+    }
+}

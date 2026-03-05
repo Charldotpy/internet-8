@@ -1,0 +1,76 @@
+﻿using Group_C_IOOP_Assignment.Manager;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Manager
+{
+    public partial class ManagerHomePage : Form
+    {
+        public ManagerHomePage()
+        {
+            InitializeComponent();
+        }
+
+        private void ManagerHomePage_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnFeedback_Click(object sender, EventArgs e)
+        {
+            ManagerViewFeedback.ManagerViewFeedback ViewFeedback = new ManagerViewFeedback.ManagerViewFeedback();
+            ViewFeedback.Show();
+            this.Hide();
+        }
+
+        private void btnTopUp_Click(object sender, EventArgs e)
+        {
+            ManagerTopUpUsername TopUpUsername = new ManagerTopUpUsername();
+            TopUpUsername.Show();
+            this.Hide();
+        }
+
+        private void btnRefund_Click(object sender, EventArgs e)
+        {
+            ManagerRefund Refund = new ManagerRefund();
+            Refund.Show();
+            this.Hide();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            ManagerProfile UpdateProfile = new ManagerProfile(LoggedInUserID);
+            UpdateProfile.Show();
+            this.Hide();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Group_C_IOOP_Assignment.LoginPage LoginPage = new Group_C_IOOP_Assignment.LoginPage();
+            LoginPage.Show();
+            this.Hide();
+        }
+
+        private string LoggedInUserID;
+
+        public ManagerHomePage(string UserID)
+        {
+            InitializeComponent();
+            LoggedInUserID = UserID;
+        }
+
+
+    }
+}

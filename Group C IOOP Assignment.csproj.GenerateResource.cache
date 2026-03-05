@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Group_C_IOOP_Assignment.Manager
+{
+    public  class RefundManager
+    {
+        private string connectionString = Properties.Settings.Default.DBConnection;
+        public DataTable LoadRefundRequests()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT RefundID, OrderID, UserID, Reason, Status FROM Refunds";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, con);
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public bool UpdateRefundStatus(string refundID, string status, string processedBy)
+        {
+            bool success = false;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"UPDATE Refunds 
+                                 SET Status = @Status, 
+                                     ProcessedBy = @ProcessedBy, 
+                                     [Processed Date] = @ProcessedDate
+                                 WHERE RefundID = @RefundID";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Status", status);
+                cmd.Parameters.AddWithValue("@ProcessedBy", processedBy);
+                cmd.Parameters.AddWithValue("@ProcessedDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@RefundID", refundID);
+
+                con.Open();
+                int result = cmd.ExecuteNonQuery();
+                success = result > 0;
+            }
+            return success;
+        }
+    }
+}

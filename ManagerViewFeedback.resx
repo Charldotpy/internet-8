@@ -1,0 +1,211 @@
+﻿namespace Group_C_IOOP_Assignment.Manager
+{
+    partial class ManagerTopUp
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblTopUp = new System.Windows.Forms.Label();
+            this.lblRM = new System.Windows.Forms.Label();
+            this.lblBalance = new System.Windows.Forms.Label();
+            this.txtTopUp = new System.Windows.Forms.TextBox();
+            this.btnTopUp = new System.Windows.Forms.Button();
+            this.btnReceipt = new System.Windows.Forms.Button();
+            this.btnLogOut = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.picSedapMakan = new System.Windows.Forms.PictureBox();
+            this.DisplayShape = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.picSedapMakan)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // lblTopUp
+            // 
+            this.lblTopUp.AutoSize = true;
+            this.lblTopUp.BackColor = System.Drawing.Color.Transparent;
+            this.lblTopUp.Font = new System.Drawing.Font("Cooper Black", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTopUp.Location = new System.Drawing.Point(564, 43);
+            this.lblTopUp.Name = "lblTopUp";
+            this.lblTopUp.Size = new System.Drawing.Size(335, 91);
+            this.lblTopUp.TabIndex = 8;
+            this.lblTopUp.Text = "Top Up";
+            // 
+            // lblRM
+            // 
+            this.lblRM.AutoSize = true;
+            this.lblRM.BackColor = System.Drawing.Color.Gold;
+            this.lblRM.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRM.Location = new System.Drawing.Point(661, 237);
+            this.lblRM.Name = "lblRM";
+            this.lblRM.Size = new System.Drawing.Size(103, 38);
+            this.lblRM.TabIndex = 9;
+            this.lblRM.Text = "label1";
+            // 
+            // lblBalance
+            // 
+            this.lblBalance.AutoSize = true;
+            this.lblBalance.BackColor = System.Drawing.Color.Gold;
+            this.lblBalance.Font = new System.Drawing.Font("Cooper Black", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBalance.Location = new System.Drawing.Point(619, 183);
+            this.lblBalance.Name = "lblBalance";
+            this.lblBalance.Size = new System.Drawing.Size(210, 54);
+            this.lblBalance.TabIndex = 10;
+            this.lblBalance.Text = "Balance";
+            // 
+            // txtTopUp
+            // 
+            this.txtTopUp.BackColor = System.Drawing.Color.Salmon;
+            this.txtTopUp.Location = new System.Drawing.Point(414, 353);
+            this.txtTopUp.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTopUp.Name = "txtTopUp";
+            this.txtTopUp.Size = new System.Drawing.Size(212, 22);
+            this.txtTopUp.TabIndex = 28;
+            // 
+            // btnTopUp
+            // 
+            this.btnTopUp.BackColor = System.Drawing.Color.White;
+            this.btnTopUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTopUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTopUp.Location = new System.Drawing.Point(414, 402);
+            this.btnTopUp.Name = "btnTopUp";
+            this.btnTopUp.Size = new System.Drawing.Size(210, 101);
+            this.btnTopUp.TabIndex = 29;
+            this.btnTopUp.Text = "Top Up";
+            this.btnTopUp.UseVisualStyleBackColor = false;
+            this.btnTopUp.Click += new System.EventHandler(this.btnTopUp_Click);
+            // 
+            // btnReceipt
+            // 
+            this.btnReceipt.BackColor = System.Drawing.Color.White;
+            this.btnReceipt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReceipt.Location = new System.Drawing.Point(778, 402);
+            this.btnReceipt.Name = "btnReceipt";
+            this.btnReceipt.Size = new System.Drawing.Size(210, 101);
+            this.btnReceipt.TabIndex = 30;
+            this.btnReceipt.Text = "Generate Receipt";
+            this.btnReceipt.UseVisualStyleBackColor = false;
+            // 
+            // btnLogOut
+            // 
+            this.btnLogOut.BackColor = System.Drawing.Color.White;
+            this.btnLogOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogOut.Location = new System.Drawing.Point(38, 616);
+            this.btnLogOut.Name = "btnLogOut";
+            this.btnLogOut.Size = new System.Drawing.Size(133, 52);
+            this.btnLogOut.TabIndex = 31;
+            this.btnLogOut.Text = "Log Out";
+            this.btnLogOut.UseVisualStyleBackColor = false;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.Location = new System.Drawing.Point(1148, 616);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(133, 52);
+            this.btnExit.TabIndex = 32;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // picSedapMakan
+            // 
+            this.picSedapMakan.Image = global::Group_C_IOOP_Assignment.Properties.Resources.Sedap_Makan_logo;
+            this.picSedapMakan.Location = new System.Drawing.Point(26, 23);
+            this.picSedapMakan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picSedapMakan.Name = "picSedapMakan";
+            this.picSedapMakan.Size = new System.Drawing.Size(157, 143);
+            this.picSedapMakan.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picSedapMakan.TabIndex = 33;
+            this.picSedapMakan.TabStop = false;
+            // 
+            // DisplayShape
+            // 
+            this.DisplayShape.BackColor = System.Drawing.Color.Gold;
+            this.DisplayShape.Location = new System.Drawing.Point(572, 165);
+            this.DisplayShape.Name = "DisplayShape";
+            this.DisplayShape.Size = new System.Drawing.Size(327, 138);
+            this.DisplayShape.TabIndex = 34;
+            this.DisplayShape.UseVisualStyleBackColor = false;
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.White;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Location = new System.Drawing.Point(196, 616);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(133, 52);
+            this.btnBack.TabIndex = 42;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // ManagerTopUp
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.MistyRose;
+            this.BackgroundImage = global::Group_C_IOOP_Assignment.Properties.Resources.image2;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1316, 695);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.picSedapMakan);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnLogOut);
+            this.Controls.Add(this.btnReceipt);
+            this.Controls.Add(this.btnTopUp);
+            this.Controls.Add(this.txtTopUp);
+            this.Controls.Add(this.lblBalance);
+            this.Controls.Add(this.lblRM);
+            this.Controls.Add(this.lblTopUp);
+            this.Controls.Add(this.DisplayShape);
+            this.DoubleBuffered = true;
+            this.Name = "ManagerTopUp";
+            this.Text = "ManagerTopUp";
+            this.Load += new System.EventHandler(this.ManagerTopUp_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picSedapMakan)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+        private System.Windows.Forms.Label lblTopUp;
+        private System.Windows.Forms.Label lblRM;
+        private System.Windows.Forms.Label lblBalance;
+        private System.Windows.Forms.TextBox txtTopUp;
+        private System.Windows.Forms.Button btnTopUp;
+        private System.Windows.Forms.Button btnReceipt;
+        private System.Windows.Forms.Button btnLogOut;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.PictureBox picSedapMakan;
+        private System.Windows.Forms.Button DisplayShape;
+        private System.Windows.Forms.Button btnBack;
+    }
+}

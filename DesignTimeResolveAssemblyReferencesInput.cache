@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Group_C_IOOP_Assignment.Manager
+{
+    public class ManagerUsername
+    {
+        public string UserID { get; set; }
+        public string Name { get; set; }
+        public DateTime DOB { get; set; }
+        public string Gender { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+
+        public ManagerUsername() { }
+
+        public void LoadUserByID(string userID)
+        {
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.DBConnection))
+            {
+                string query = "SELECT * FROM Users WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", userID);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    UserID = reader["UserID"].ToString();
+                    Name = reader["Name"].ToString();
+                    DOB = Convert.ToDateTime(reader["DOB"]);
+                    Gender = reader["Gender"].ToString();
+                    Email = reader["Email"].ToString();
+                    Username = reader["Username"].ToString();
+                    Password = reader["Password"].ToString();
+                    Role = reader["Role"].ToString();
+                }
+                conn.Close();
+            }
+        }
+
+            /*public ManagerUsername(string username)
+            {
+                LoadUserID(username);
+            }
+
+            public void LoadUserID(string username)
+            {
+                using (SqlConnection conn = new SqlConnection("DBConnection"))
+                {
+                    string query = "SELECT * FROM Users WHERE Username = @Username";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        UserID = reader["UserID"].ToString();
+                        Name = reader["Name"].ToString();
+                        DOB = Convert.ToDateTime(reader["DOB"]);
+                        Gender = reader["Gender"].ToString();
+                        Email = reader["Email"].ToString();
+                        Username = reader["Username"].ToString();
+                        Password = reader["Password"].ToString();
+                        Role = reader["Role"].ToString();
+                    }
+                    conn.Close();
+                }
+            }*/
+
+            public bool UpdateProfile()
+            {
+                using (SqlConnection conn = new SqlConnection("DBConnection"))
+                {
+                    string query = @"UPDATE Users SET 
+                                Name = @Name,
+                                DOB = @DOB,
+                                Gender = @Gender,
+                                Email = @Email,
+                                Username = @Username,
+                                Password = @Password
+                                WHERE UserID = @UserID";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Name", Name);
+                    cmd.Parameters.AddWithValue("@DOB", DOB);
+                    cmd.Parameters.AddWithValue("@Gender", Gender);
+                    cmd.Parameters.AddWithValue("@Email", Email);
+                    cmd.Parameters.AddWithValue("@Username", Username);
+                    cmd.Parameters.AddWithValue("@Password", Password);
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
+
+                    conn.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return result > 0;
+                }
+            }
+        }
+}
